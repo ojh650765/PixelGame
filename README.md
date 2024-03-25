@@ -1,4 +1,4 @@
-#PIXEL Game
+# PIXEL Game
 ********
 ## 게임 컨셉:
 ### High Concept:

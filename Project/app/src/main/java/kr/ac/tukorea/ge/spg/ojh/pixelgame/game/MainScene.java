@@ -9,10 +9,12 @@ import kr.ac.tukorea.ge.spg.ojh.framework.scene.Scene;
 public class MainScene extends Scene {
     private static final String TAG = MainScene.class.getSimpleName();
     private final WarriorHead warriorHead;
+    private final Warrior warrior;
+
     //Score score; // package private
 
     public enum Layer {
-        bg, enemy, bullet, player, controller, COUNT
+        bg, board,item, up_player,under_player, enemy, slash, obstacle, controller, COUNT
     }
     public MainScene() {
         initLayers(Layer.COUNT);
@@ -21,19 +23,16 @@ public class MainScene extends Scene {
         add(Layer.controller, new CollisionChecker(this));
 
         add(Layer.bg, new HorizonBackground(R.mipmap.bg_forest));
-        //add(Layer.bg, new VertScrollBackground(R.mipmap.clouds, 0.4f));
-
+        add(Layer.board,new Board(Layer.board));
         this.warriorHead = new WarriorHead();
-        add(Layer.player, warriorHead);
-
+        this.warrior = new Warrior();
+        add(Layer.under_player, warriorHead);
+        add(Layer.up_player, warrior);
         //this.score = new Score(R.mipmap.number_24x32, 8.5f, 0.5f, 0.6f);
         //score.setScore(0);
         //add(Layer.ui, score);
     }
 
-    public void addScore(int amount) {
-        //score.add(amount);
-    }
 
     @Override
     public void update(float elapsedSeconds) {

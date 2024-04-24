@@ -22,7 +22,7 @@ public class WarriorHead extends Sprite implements IBoxCollidable {
     private static final float SPEED = 5.0f;
     private static final float SideX = 2.56f;
     private static final float ONESTEP = 0.7f;
-    private static final float SideY = 4.1f;
+    private static final float SideY = 4.16f;
     private boolean Warriormove = false;
     private boolean shouldDrawLine = false;
     private float targetX;
@@ -49,7 +49,7 @@ public class WarriorHead extends Sprite implements IBoxCollidable {
 
     public WarriorHead() {
         super(R.mipmap.rightface);
-        setPosition(Metrics.width/2 - SideX, Metrics.height/2 - SideY+2.9f, HEAD_WIDTH, HEAD_HEIGHT);
+        setPosition(Metrics.width/2 - SideX, Metrics.height/2 + SideY, HEAD_WIDTH, HEAD_HEIGHT);
         targetBmp = BitmapPool.get(R.mipmap.rightface);
     }
 

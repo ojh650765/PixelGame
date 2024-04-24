@@ -20,11 +20,13 @@ public class MainScene extends Scene {
         initLayers(Layer.COUNT);
 
         add(Layer.controller, new EnemyGenerator());
-        add(Layer.controller, new CollisionChecker(this));
+        this.warriorHead = new WarriorHead();
+        add(Layer.controller, new CollisionChecker(this, this.warriorHead));
+        add(Layer.controller, new MapLoader(this));
 
         add(Layer.bg, new HorizonBackground(R.mipmap.bg_forest));
         add(Layer.board,new Board(Layer.board));
-        this.warriorHead = new WarriorHead();
+
         this.warrior = new Warrior();
         add(Layer.under_player, warriorHead);
         add(Layer.up_player, warrior);

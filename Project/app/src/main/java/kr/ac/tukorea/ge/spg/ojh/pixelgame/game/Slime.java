@@ -13,7 +13,7 @@ import kr.ac.tukorea.ge.spg.ojh.framework.view.Metrics;
 
 public class Slime extends AnimSprite implements IBoxCollidable, IRecyclable {
     private static final float SPEED = 1.f;
-    private static final float RADIUS = 0.9f;
+    private static final float RADIUS = 0.6f;
     private static final int[] resIds = {
             R.mipmap.blue_slime_sheet,R.mipmap.red_slime_sheet
     };

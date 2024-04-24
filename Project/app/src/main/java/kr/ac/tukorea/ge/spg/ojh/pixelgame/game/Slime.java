@@ -12,21 +12,21 @@ import kr.ac.tukorea.ge.spg.ojh.framework.scene.Scene;
 import kr.ac.tukorea.ge.spg.ojh.framework.view.Metrics;
 
 public class Slime extends AnimSprite implements IBoxCollidable, IRecyclable {
-    private static final float SPEED = 0.f;
+    private static final float SPEED = 1.f;
     private static final float RADIUS = 0.9f;
     private static final int[] resIds = {
-            R.mipmap.green_slime, R.mipmap.red_slime, R.mipmap.blue_slime,
+            R.mipmap.blue_slime_sheet,R.mipmap.red_slime_sheet
     };
     public static final int MAX_LEVEL = resIds.length - 1;
-    public static final float ANIM_FPS = 10.0f;
+    public static final float ANIM_FPS = 5.0f;
     protected RectF collisionRect = new RectF();
     private int level;
 
     private Slime(int level, int index) {
         super(resIds[level], ANIM_FPS);
         this.level = level;
-        setPosition(Metrics.width / 10 * (2 * index + 1), 0, RADIUS);
-        dy = SPEED;
+        setPosition(Metrics.width + index, Metrics.height/4.5f, RADIUS);
+        dx = -SPEED;
     }
     public static Slime get(int level, int index) {
         Slime enemy = (Slime) RecycleBin.get(Slime.class);

@@ -9,16 +9,20 @@ public class HorizonBackground extends Sprite {
 
     public HorizonBackground(int bitmapResId) {
         super(bitmapResId);
-        this.width = Metrics.width; // 화면 전체 폭으로 설정
-        float startX = 0; // 이미지 시작 위치를 0으로 설정
-        setPosition(startX, 0, startX + this.width, Metrics.height);
+        this.width = bitmap.getWidth() * Metrics.height / bitmap.getHeight();
+        setPosition(Metrics.width / 2, Metrics.height / 2, width, Metrics.height);
+
     }
 
 
     @Override
     public void draw(Canvas canvas) {
-        // 화면 전체에 이미지를 그리기 위한 설정
-        dstRect.set(0, 0,width, Metrics.height);
-        canvas.drawBitmap(bitmap, null, dstRect, null);
+        float curr = x % width;
+        if (curr > 0) curr -= width;
+        while (curr < Metrics.width) {
+            dstRect.set(curr, 0, curr + width, Metrics.height);
+            canvas.drawBitmap(bitmap, null, dstRect, null);
+            curr += width;
+        }
     }
 }

@@ -14,7 +14,7 @@ public class MainScene extends Scene {
     //Score score; // package private
 
     public enum Layer {
-        bg, board,item, up_player,under_player, enemy, slash, obstacle, controller, COUNT
+        bg, board,item, up_player,under_player, enemy, slash, obstacle,bomb, controller, COUNT
     }
     public MainScene() {
         initLayers(Layer.COUNT);

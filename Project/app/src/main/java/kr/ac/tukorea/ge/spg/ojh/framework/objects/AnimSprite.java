@@ -49,4 +49,10 @@ public class AnimSprite extends Sprite {
         srcRect.set(frameIndex * frameWidth, 0, (frameIndex + 1) * frameWidth, frameHeight);
         canvas.drawBitmap(bitmap, srcRect, dstRect, null);
     }
+
+    public void ChangeAnimSprite(int mipmapId, float fps){
+        ChangeSprite(mipmapId);
+        setAnimationResource(0, fps, 0);
+
+    }
 }

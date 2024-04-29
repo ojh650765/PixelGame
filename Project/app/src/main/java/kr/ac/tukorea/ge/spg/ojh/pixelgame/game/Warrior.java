@@ -13,6 +13,9 @@ import kr.ac.tukorea.ge.spg.ojh.framework.scene.Scene;
 import kr.ac.tukorea.ge.spg.ojh.framework.view.Metrics;
 
 public class Warrior extends AnimSprite {
+    public enum State {
+        idle, attack, hitted
+    }
     private static final float WARRIOR_WIDTH = 3.f;
     private static final float WARRIOR_HEIGHT = WARRIOR_WIDTH;
     private static final float WARRIOR_ATTACK_MOTION_FRAME = 2;
@@ -20,24 +23,36 @@ public class Warrior extends AnimSprite {
     private static final float FIRE_INTERVAL = 0.93f;
 
     public static final float ANIM_FPS = 8.f;
+    public static final float ANIM_IDLE_FPS = 5.f;
     private boolean attaked = false;
 
-
+    protected State state = State.idle;
 
     private float fireCoolTime = FIRE_INTERVAL;
-
+    private static final int[] resIds = {
+            R.mipmap.warrior_idle_animsheet,R.mipmap.warrior_animsheet
+    };
     public Warrior() {
-        super(R.mipmap.warrior_animsheet,ANIM_FPS);
+        super(resIds[0],ANIM_IDLE_FPS);
         setPosition(0,WARRIOR_HEIGHT/2 , WARRIOR_WIDTH, WARRIOR_HEIGHT);
     }
 
     @Override
     public void update(float elapsedSeconds) {
-        if (frameIndex==WARRIOR_ATTACK_MOTION_FRAME && !attaked) {
-            Slash();
-            attaked = true;
+
+        switch (state) {
+            case attack:
+            if (frameIndex==WARRIOR_ATTACK_MOTION_FRAME && !attaked) {
+                Slash();
+                attaked = true;
+            }
+            if(frameIndex!=WARRIOR_ATTACK_MOTION_FRAME) attaked = false;
+            ChangeAnimSprite(resIds[1],ANIM_FPS);
+            break;
+            case idle:
+                ChangeAnimSprite(resIds[0],ANIM_IDLE_FPS);
+                break;
         }
-        if(frameIndex!=WARRIOR_ATTACK_MOTION_FRAME) attaked = false;
     }
 
     private void Slash() {
@@ -47,10 +62,6 @@ public class Warrior extends AnimSprite {
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-
-    }
-
-    private void setTargetX(float x) {
 
     }
 

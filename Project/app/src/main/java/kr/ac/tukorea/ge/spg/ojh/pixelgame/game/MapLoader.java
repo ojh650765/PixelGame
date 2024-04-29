@@ -31,12 +31,16 @@ public class MapLoader implements IGameObject {
 
     }
     private void generate() {
-;
         if (scene == null) return;
         for (int i = 0; i < 4; i++) {
             calculatePositionX();
             calculatePositionY();
             scene.add(MainScene.Layer.obstacle, new Obstacle(randomX, randomY));
+        }
+        for (int i = 0; i < 4; i++) {
+            calculatePositionX();
+            calculatePositionY();
+            scene.add(MainScene.Layer.bomb, new Bomb(randomX, randomY));
         }
     }
     private void calculatePositionX() {

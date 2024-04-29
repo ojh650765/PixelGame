@@ -122,7 +122,37 @@ public class WarriorHead extends Sprite implements IBoxCollidable {
         }
         return false;
     }
+    public void Stop()
+    {
+        dx = 0;
+        dy = 0;
+    }
     public RectF getCollisionRect() {
         return dstRect;
+    }
+
+    public void UpdateDx(){
+        dx *=-1;
+    }
+    public void UpdateDy(){
+        dy *=-1;
+    }
+    public void UpdateDxValue(float newDx){
+        dx = newDx;
+    }
+    public void UpdateDyValue(float newDy){
+        dy = newDy;
+    }
+    public float GetDx(){
+        return dx;
+    }
+    public float GetDy(){
+        return dy;
+    }
+    public void SetX(float newX){
+        x += newX;
+    }
+    public void SetY(float newY){
+        y+=newY;
     }
 }

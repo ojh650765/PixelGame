@@ -49,28 +49,9 @@ public class Sprite implements IGameObject {
     public void draw(Canvas canvas) {
         canvas.drawBitmap(bitmap, null, dstRect, null);
     }
-    public void UpdateDx(){
-        dx *=-1;
-    }
-    public void UpdateDy(){
-        dy *=-1;
-    }
-    public void UpdateDxValue(float newDx){
-        dx = newDx;
-    }
-    public void UpdateDyValue(float newDy){
-        dy = newDy;
-    }
-    public float GetDx(){
-        return dx;
-    }
-    public float GetDy(){
-       return dy;
-    }
-    public void SetX(float newX){
-        x += newX;
-    }
-    public void SetY(float newY){
-        y+=newY;
+    public void ChangeSprite(int mipmapId) {
+        if (mipmapId != 0) {
+            bitmap = BitmapPool.get(mipmapId);
+        }
     }
 }

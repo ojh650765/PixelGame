@@ -42,6 +42,17 @@ public class CollisionChecker implements IGameObject {
             }
 
         }
+        ArrayList<IGameObject> Items = scene.objectsAt(MainScene.Layer.item);
+        for(int i = Items.size() - 1; i>=0; i--){
+            Item item = (Item) Items.get(i);
+            if(CollisionHelper.collides(item, this.warriorHead)){
+                //remove item
+                //warrior earn item
+                //get type
+                break;
+            }
+
+        }
     }
     public void updateDirectionAfterCollision(RectF obstacleRect, RectF headRect) {
         float incidentX = this.warriorHead.GetDx();

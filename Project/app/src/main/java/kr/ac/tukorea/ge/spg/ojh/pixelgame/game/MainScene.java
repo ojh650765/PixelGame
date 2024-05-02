@@ -30,9 +30,6 @@ public class MainScene extends Scene {
         this.warrior = new Warrior();
         add(Layer.under_player, warriorHead);
         add(Layer.up_player, warrior);
-        //this.score = new Score(R.mipmap.number_24x32, 8.5f, 0.5f, 0.6f);
-        //score.setScore(0);
-        //add(Layer.ui, score);
     }
 
 

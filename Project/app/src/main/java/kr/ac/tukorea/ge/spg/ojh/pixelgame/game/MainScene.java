@@ -18,8 +18,7 @@ public class MainScene extends Scene {
     }
     public MainScene() {
         initLayers(Layer.COUNT);
-
-        add(Layer.controller, new EnemyGenerator());
+        add(Layer.controller, new EnemyGenerator(this));
         this.warriorHead = new WarriorHead();
         add(Layer.controller, new CollisionChecker(this, this.warriorHead));
         MapLoader mapLoader =new MapLoader(this);

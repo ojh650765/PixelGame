@@ -10,21 +10,19 @@ import kr.ac.tukorea.ge.spg.ojh.framework.scene.Scene;
 
 public class EnemyGenerator implements IGameObject {
     private static final String TAG = EnemyGenerator.class.getSimpleName();
-    public static final float GEN_INTERVAL = 15.0f;
     private final Random random = new Random();
-    private float enemyTime = 0;
-    private int wave;
+
+    private int wave=0;
+    private  Scene scene;
+    public EnemyGenerator(Scene scene){
+        this.scene =scene;
+        generate();
+    }
     @Override
     public void update(float elapsedSeconds) {
-        enemyTime -= elapsedSeconds;
-        if (enemyTime < 0) {
-            generate();
-            enemyTime = GEN_INTERVAL;
-        }
     }
 
     private void generate() {
-        Scene scene = Scene.top();
         if (scene == null) return;
 
         wave++;

@@ -20,17 +20,10 @@ public class MapObject extends Sprite implements IBoxCollidable, IRecyclable {
     }
 
     private static final String TAG = MapObject.class.getSimpleName();
-    protected static Random random = new Random();
-    public static final float SPEED = -2.0f;
+
 
     @Override
     public void update(float elapsedSeconds) {
-        float dx = SPEED * elapsedSeconds;
-        dstRect.offset(dx, 0);
-        if (dstRect.right < 0) {
-            //Log.d(TAG, "Removing:" + this);
-            removeFromScene();
-        }
     }
 
     @NonNull
@@ -39,14 +32,6 @@ public class MapObject extends Sprite implements IBoxCollidable, IRecyclable {
         return getClass().getSimpleName() + "@" + System.identityHashCode(this) + "(" + width + "x" + height + ")";
     }
 
-    public void addToScene() {
-        Scene scene = Scene.top();
-        if (scene == null) {
-            Log.e(TAG, "Scene stack is empty in addToScene() " + this.getClass().getSimpleName());
-            return;
-        }
-        scene.add(layer, this);
-    }
     public void removeFromScene() {
         Scene scene = Scene.top();
         if (scene == null) {

@@ -15,13 +15,13 @@ public class Board extends Sprite {
 
     protected MainScene.Layer layer;
     private static final float BOARD_WIDTH = 6.f;
-    private static final float BOARD_HEIGHT = BOARD_WIDTH;
+    private static final float BOARD_HEIGHT = BOARD_WIDTH*816/800;
     private final Random random = new Random();
 
     protected Board(MainScene.Layer layer) {
         super(R.mipmap.tile1);
         this.layer = layer;
-        setPosition(Metrics.width/2, Metrics.height/2 +1.5f ,BOARD_WIDTH, BOARD_HEIGHT);
+        setPosition(Metrics.width/2, Metrics.height/2 +1.44f ,BOARD_WIDTH, BOARD_HEIGHT);
     }
     @NonNull
     @Override

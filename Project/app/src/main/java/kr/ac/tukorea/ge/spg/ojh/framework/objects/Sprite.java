@@ -60,4 +60,7 @@ public class Sprite implements IGameObject {
             bitmap = BitmapPool.get(mipmapId);
         }
     }
+    public void Stop(){
+        dx = 0;
+    }
 }

@@ -12,7 +12,7 @@ import kr.ac.tukorea.ge.spg.ojh.framework.scene.Scene;
 import kr.ac.tukorea.ge.spg.ojh.framework.view.Metrics;
 
 public class Slime extends AnimSprite implements IBoxCollidable, IRecyclable {
-    private static final float SPEED = 1.f;
+    private static final float SPEED = 3.f;
     private static final float RADIUS = 0.6f;
     private static final int[] resIds = {
             R.mipmap.blue_slime_sheet,R.mipmap.red_slime_sheet
@@ -41,8 +41,8 @@ public class Slime extends AnimSprite implements IBoxCollidable, IRecyclable {
     @Override
     public void update(float elapsedSeconds) {
         super.update(elapsedSeconds);
-        if (dstRect.top > Metrics.height) {
-            Scene.top().remove(MainScene.Layer.enemy, this);
+        if (dstRect.left < 0 +  Metrics.width/20) {
+            Stop();
         }
         collisionRect.set(dstRect);
         collisionRect.inset(0.11f, 0.11f);

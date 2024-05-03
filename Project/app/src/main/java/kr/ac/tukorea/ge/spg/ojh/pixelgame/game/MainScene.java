@@ -22,8 +22,9 @@ public class MainScene extends Scene {
         add(Layer.controller, new EnemyGenerator());
         this.warriorHead = new WarriorHead();
         add(Layer.controller, new CollisionChecker(this, this.warriorHead));
-        add(Layer.controller, new MapLoader(this));
-
+        MapLoader mapLoader =new MapLoader(this);
+        add(Layer.controller, mapLoader);
+        mapLoader.ResetGenerateObjects(this.warriorHead);
         add(Layer.bg, new HorizonBackground(R.mipmap.bg_forest));
         add(Layer.board,new Board(Layer.board));
 

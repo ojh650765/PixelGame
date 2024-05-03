@@ -7,7 +7,7 @@ import kr.ac.tukorea.ge.spg.ojh.framework.objects.Sprite;
 import kr.ac.tukorea.ge.spg.ojh.pixelgame.R;
 
 public class Bomb  extends Sprite implements IBoxCollidable {
-    private static final float BOMB_WIDTH = 0.55f;
+    private static final float BOMB_WIDTH = 0.5f;
     private static final float BOMB_HEIGHT = BOMB_WIDTH ;
 
 

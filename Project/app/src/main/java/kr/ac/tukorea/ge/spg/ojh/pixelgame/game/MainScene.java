@@ -18,16 +18,19 @@ public class MainScene extends Scene {
     }
     public MainScene() {
         initLayers(Layer.COUNT);
-        add(Layer.controller, new EnemyGenerator(this));
         this.warriorHead = new WarriorHead();
-        add(Layer.controller, new CollisionChecker(this, this.warriorHead));
+        this.warrior = new Warrior();
         MapLoader mapLoader =new MapLoader(this);
+
+        add(Layer.controller, new EnemyGenerator(this));
+        add(Layer.controller, new CollisionChecker(this, this.warriorHead));
+
         add(Layer.controller, mapLoader);
+        add(Layer.controller, GameStateManager.getInstance());
         mapLoader.ResetGenerateObjects(this.warriorHead);
+        add(Layer.controller,new TurnBasedController(this,mapLoader,warriorHead,this.warrior));
         add(Layer.bg, new HorizonBackground(R.mipmap.bg_forest));
         add(Layer.board,new Board(Layer.board));
-
-        this.warrior = new Warrior();
         add(Layer.under_player, warriorHead);
         add(Layer.up_player, warrior);
     }

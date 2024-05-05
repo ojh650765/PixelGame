@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import kr.ac.tukorea.ge.spg.ojh.framework.interfaces.IBoxCollidable;
@@ -18,7 +19,6 @@ import kr.ac.tukorea.ge.spg.ojh.framework.view.Metrics;
 public class WarriorHead extends Sprite implements IBoxCollidable {
     private static final float HEAD_WIDTH = 0.6f;
     private static final float HEAD_HEIGHT = HEAD_WIDTH;
-    private static final float OFFSET = 0.2f;
     private static final float TARGET_RADIUS = 0.5f;
     private static final float SPEED = 5.0f;
     private static final float SideX = 2.56f;
@@ -34,7 +34,8 @@ public class WarriorHead extends Sprite implements IBoxCollidable {
     private static final  float lowerBound = Metrics.height / 2 + SideY;
 
     private RectF targetRect = new RectF();
-    private Bitmap targetBmp;
+
+
     private Paint getDashedLinePaint() {
         if (dashedLinePaint == null) {
             dashedLinePaint = new Paint();
@@ -50,7 +51,6 @@ public class WarriorHead extends Sprite implements IBoxCollidable {
     public WarriorHead() {
         super(R.mipmap.rightface);
         setPosition(leftBound, lowerBound, HEAD_WIDTH, HEAD_HEIGHT);
-        targetBmp = BitmapPool.get(R.mipmap.rightface);
     }
 
     @Override
@@ -126,6 +126,10 @@ public class WarriorHead extends Sprite implements IBoxCollidable {
     {
         dx = 0;
         dy = 0;
+        if(!GameStateManager.getInstance().isTurnActive()){
+             GameStateManager.getInstance().setTurnActive(true);
+        }
+
     }
     public RectF getCollisionRect() {
         return dstRect;
@@ -154,5 +158,8 @@ public class WarriorHead extends Sprite implements IBoxCollidable {
     }
     public void SetY(float newY){
         y+=newY;
+    }
+    public  void ResetMove(){
+        Warriormove =false;
     }
 }

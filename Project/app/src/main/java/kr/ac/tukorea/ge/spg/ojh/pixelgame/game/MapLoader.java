@@ -28,11 +28,13 @@ public class MapLoader implements IGameObject {
     private float randomX = 0;
     private float randomY = 0;
 
-    private static Set<String> usedPositions = new HashSet<>();
+    private Set<String> usedPositions = new HashSet<>();
     public MapLoader(MainScene scene) {
         this.scene = scene;
     }
     public void ResetGenerateObjects(WarriorHead warriorHead){
+
+        usedPositions.clear();
         int col = random.nextInt(9);
         randomX = leftBound + (col * 0.64f);
         int row = random.nextInt(9);
@@ -44,6 +46,7 @@ public class MapLoader implements IGameObject {
         generateObjects(BOMB_COUNT, MainScene.Layer.bomb);
         generateObjects(TOTAL_COUNT -PLAYER_COUNT - OBSTACLE_COUNT - BOMB_COUNT + 1, MainScene.Layer.item);
 
+
     }
     @Override
     public void update(float elapsedSeconds) {
@@ -52,7 +55,7 @@ public class MapLoader implements IGameObject {
     private void generateObjects(int count, MainScene.Layer layerType) {
 
         int attempts = 0; // 현재 시도 횟수
-        int attemptLimit = 100;
+        int attemptLimit = 20;
         int objectsPlaced = 0;
         if (scene == null) return;
         while (objectsPlaced < count && attempts < attemptLimit) {

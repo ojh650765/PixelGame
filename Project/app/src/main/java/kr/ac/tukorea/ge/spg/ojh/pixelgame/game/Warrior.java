@@ -3,6 +3,7 @@ package kr.ac.tukorea.ge.spg.ojh.pixelgame.game;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.RectF;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import kr.ac.tukorea.ge.spg.ojh.framework.objects.AnimSprite;
@@ -13,12 +14,15 @@ import kr.ac.tukorea.ge.spg.ojh.framework.scene.Scene;
 import kr.ac.tukorea.ge.spg.ojh.framework.view.Metrics;
 
 public class Warrior extends AnimSprite {
+    private boolean changed;
+
     public enum State {
         idle, attack, hitted
     }
     private static final float WARRIOR_WIDTH = 3.f;
     private static final float WARRIOR_HEIGHT = WARRIOR_WIDTH;
     private static final float WARRIOR_ATTACK_MOTION_FRAME = 2;
+    private static final float WARRIOR_ATTACK_MOTION_END_FRAME = 6;
 
     private static final float FIRE_INTERVAL = 0.93f;
 
@@ -42,12 +46,21 @@ public class Warrior extends AnimSprite {
 
         switch (state) {
             case attack:
+                ChangeAnimSprite(resIds[1],ANIM_FPS);
             if (frameIndex==WARRIOR_ATTACK_MOTION_FRAME && !attaked) {
                 Slash();
                 attaked = true;
+
+            }
+            if(frameIndex == WARRIOR_ATTACK_MOTION_END_FRAME){
+               state=State.idle;
+                changed = false;
+                attaked = false;
+                break;
             }
             if(frameIndex!=WARRIOR_ATTACK_MOTION_FRAME) attaked = false;
-            ChangeAnimSprite(resIds[1],ANIM_FPS);
+
+
             break;
             case idle:
                 ChangeAnimSprite(resIds[0],ANIM_IDLE_FPS);
@@ -58,7 +71,13 @@ public class Warrior extends AnimSprite {
     private void Slash() {
         Scene.top().add(MainScene.Layer.slash, SwordStrike.get(x, y ));
     }
-
+    public  void ChangeState(State s){
+        if(!changed){
+           anim_PlayTime =  System.currentTimeMillis();
+            state = s;
+           changed = true;
+        }
+    }
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);

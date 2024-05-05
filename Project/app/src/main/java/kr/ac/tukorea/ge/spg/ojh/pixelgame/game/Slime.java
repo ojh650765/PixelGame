@@ -2,6 +2,7 @@ package kr.ac.tukorea.ge.spg.ojh.pixelgame.game;
 
 
 import android.graphics.RectF;
+import android.util.Log;
 
 import kr.ac.tukorea.ge.spg.ojh.pixelgame.R;
 import kr.ac.tukorea.ge.spg.ojh.framework.interfaces.IBoxCollidable;
@@ -12,7 +13,7 @@ import kr.ac.tukorea.ge.spg.ojh.framework.scene.Scene;
 import kr.ac.tukorea.ge.spg.ojh.framework.view.Metrics;
 
 public class Slime extends AnimSprite implements IBoxCollidable, IRecyclable {
-    private static final float SPEED = 3.f;
+    private static final float SPEED = 1.f;
     private static final float RADIUS = 0.6f;
     private static final int[] resIds = {
             R.mipmap.blue_slime_sheet,R.mipmap.red_slime_sheet
@@ -21,12 +22,14 @@ public class Slime extends AnimSprite implements IBoxCollidable, IRecyclable {
     public static final float ANIM_FPS = 5.0f;
     protected RectF collisionRect = new RectF();
     private int level;
+    private float targetX;
+    private boolean isMoving;
 
     private Slime(int level, int index) {
         super(resIds[level], ANIM_FPS);
         this.level = level;
         setPosition(Metrics.width + index, Metrics.height/4.5f, RADIUS);
-        dx = -SPEED;
+        dx = 0;
     }
     public static Slime get(int level, int index) {
         Slime enemy = (Slime) RecycleBin.get(Slime.class);
@@ -40,9 +43,14 @@ public class Slime extends AnimSprite implements IBoxCollidable, IRecyclable {
     }
     @Override
     public void update(float elapsedSeconds) {
-        super.update(elapsedSeconds);
-        if (dstRect.left < 0 +  Metrics.width/20) {
-            Stop();
+        if (isMoving) {
+            if (Math.abs(x-targetX) > 0.01f)  {
+              dx = -SPEED;
+            } else {
+                dx = 0;
+                isMoving = false;
+            }
+            super.update(elapsedSeconds);
         }
         collisionRect.set(dstRect);
         collisionRect.inset(0.11f, 0.11f);
@@ -60,4 +68,12 @@ public class Slime extends AnimSprite implements IBoxCollidable, IRecyclable {
     public int getScore() {
         return (level + 1) * 100;
     }
+
+
+    public void startLeftMove(float distanceToMove) {
+        this.targetX = x - distanceToMove;
+        this.isMoving = true;
+    }
+
+
 }

@@ -35,6 +35,7 @@ public class Sprite implements IGameObject {
         this.height = height;
         radius = Math.min(width, height) / 2;
         dstRect.set(x - width / 2, y - height / 2, x + width / 2, y + height / 2);
+
     }
     public void setPosition(float x, float y) {
         this.x = x;
@@ -44,13 +45,15 @@ public class Sprite implements IGameObject {
     }
     @Override
     public void update(float elapsedSeconds) {
+        Move(elapsedSeconds);
+    }
+    public void Move(float elapsedSeconds) {
         float timedDx = dx * elapsedSeconds;
         float timedDy = dy * elapsedSeconds;
         x += timedDx;
         y += timedDy;
         dstRect.offset(timedDx, timedDy);
     }
-
     @Override
     public void draw(Canvas canvas) {
         canvas.drawBitmap(bitmap, null, dstRect, null);

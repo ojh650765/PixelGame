@@ -24,7 +24,7 @@ public class Slime extends AnimSprite implements IBoxCollidable, IRecyclable {
     private int level;
     private float targetX;
     private boolean isMoving;
-
+    private  float HP;
     private Slime(int level, int index) {
         super(resIds[level], ANIM_FPS);
         this.level = level;
@@ -37,6 +37,7 @@ public class Slime extends AnimSprite implements IBoxCollidable, IRecyclable {
             enemy.setAnimationResource(resIds[level], ANIM_FPS);
             enemy.level = level;
             enemy.setPosition(Metrics.width / 10 * (2 * index + 1), -RADIUS, RADIUS);
+            enemy.HP = 30.f;
             return enemy;
         }
         return new Slime(level, index);
@@ -65,8 +66,11 @@ public class Slime extends AnimSprite implements IBoxCollidable, IRecyclable {
 
     }
 
-    public int getScore() {
-        return (level + 1) * 100;
+    public boolean ApplyDamage(float damaage){
+        HP -= damaage;
+        if(HP<-0)
+            return true;
+        return  false;
     }
 
 

@@ -31,9 +31,10 @@ public class WarriorHead extends Sprite implements IBoxCollidable {
     private static final float leftBound = Metrics.width / 2 - SideX;
     private static final float rightBound = Metrics.width / 2 + SideX;
     private static final float upperBound = Metrics.height / 2 - SideY + 2.9f;
-    private static final  float lowerBound = Metrics.height / 2 + SideY;
+    private static final float lowerBound = Metrics.height / 2 + SideY;
 
     private RectF targetRect = new RectF();
+    private float power;
 
 
     private Paint getDashedLinePaint() {
@@ -60,19 +61,19 @@ public class WarriorHead extends Sprite implements IBoxCollidable {
         y += dy * elapsedSeconds;
 
         // 경계 충돌 검사 및 반응
-        if (x  < leftBound) {
+        if (x < leftBound) {
             x = leftBound;
             dx = -dx; // 방향 반전
-        } else if (x  > rightBound) {
+        } else if (x > rightBound) {
             x = rightBound;
             dx = -dx; // 방향 반전
         }
 
         // 상하 경계 검사 필요 시 추가
-        if (y  < upperBound) {
+        if (y < upperBound) {
             y = upperBound;
             dy = -dy; // y축 방향 반전
-        } else if (y  > lowerBound) {
+        } else if (y > lowerBound) {
             y = lowerBound;
             dy = -dy; // y축 방향 반전
         }
@@ -83,7 +84,7 @@ public class WarriorHead extends Sprite implements IBoxCollidable {
 
     @Override
     public void draw(Canvas canvas) {
-        if(shouldDrawLine && !Warriormove) {
+        if (shouldDrawLine && !Warriormove) {
             canvas.drawLine(x, y, targetX, targetY, getDashedLinePaint());
             //canvas.drawBitmap(targetBmp, null, targetRect, null);
         }
@@ -92,7 +93,7 @@ public class WarriorHead extends Sprite implements IBoxCollidable {
     }
 
     public boolean onTouch(MotionEvent event) {
-        if(Warriormove){
+        if (Warriormove) {
             return false;
         }
         switch (event.getAction()) {
@@ -122,44 +123,61 @@ public class WarriorHead extends Sprite implements IBoxCollidable {
         }
         return false;
     }
-    public void Stop()
-    {
+
+    public void Stop() {
         dx = 0;
         dy = 0;
-        if(!GameStateManager.getInstance().isTurnActive()){
-             GameStateManager.getInstance().setTurnActive(true);
+        if (!GameStateManager.getInstance().isTurnActive()) {
+            GameStateManager.getInstance().setTurnActive(true);
         }
 
     }
+
     public RectF getCollisionRect() {
         return dstRect;
     }
 
-    public void UpdateDx(){
-        dx *=-1;
+    public void UpdateDx() {
+        dx *= -1;
     }
-    public void UpdateDy(){
-        dy *=-1;
+
+    public void UpdateDy() {
+        dy *= -1;
     }
-    public void UpdateDxValue(float newDx){
+
+    public void UpdateDxValue(float newDx) {
         dx = newDx;
     }
-    public void UpdateDyValue(float newDy){
+
+    public void UpdateDyValue(float newDy) {
         dy = newDy;
     }
-    public float GetDx(){
+
+    public float GetDx() {
         return dx;
     }
-    public float GetDy(){
+
+    public float GetDy() {
         return dy;
     }
-    public void SetX(float newX){
+
+    public void SetX(float newX) {
         x += newX;
     }
-    public void SetY(float newY){
-        y+=newY;
+
+    public void SetY(float newY) {
+        y += newY;
     }
-    public  void ResetMove(){
-        Warriormove =false;
+
+    public void ResetMove() {
+        Warriormove = false;
+    }
+
+    public float GetPower() {
+        return power;
+    }
+
+    public void UpdatePower(float power) {
+        this.power = power;
     }
 }

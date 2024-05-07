@@ -50,7 +50,27 @@ public class CollisionChecker implements IGameObject {
             }
             Item item = (Item) gobj;
             if (CollisionHelper.collides(warriorHead, item)) {
+                if(item instanceof SwordItem)
+                    warriorHead.UpdatePower(10);
+
                 scene.remove(MainScene.Layer.item, gobj);
+            }
+        }
+
+        ArrayList<IGameObject> enemies = scene.objectsAt(MainScene.Layer.enemy);
+        for (int e = enemies.size() - 1; e >= 0; e--) {
+            Slime enemy = (Slime)enemies.get(e);
+            ArrayList<IGameObject> swordStrikes = scene.objectsAt(MainScene.Layer.slash);
+            for (int b = swordStrikes.size() - 1; b >= 0; b--) {
+                SwordStrike swordStrike = (SwordStrike)swordStrikes.get(b);
+                if (CollisionHelper.collides(enemy,swordStrike)) {
+                    scene.remove(MainScene.Layer.slash, swordStrike);
+                    boolean dead = enemy.ApplyDamage(warriorHead.GetPower());
+                    if (dead) {
+                        scene.remove(MainScene.Layer.enemy, enemy);
+                    }
+                    break;
+                }
             }
         }
     }

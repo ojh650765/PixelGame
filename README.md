@@ -1,4 +1,4 @@
-#Pixel Game
+# Pixel Game
 ********
 ## 게임 소개:
 턴제 게임

@@ -322,7 +322,8 @@ Turn이 시작될 때 Target을 새롭게 계산해서 움직임
 MapObject를 상속 받음.
 SwordItem 리소스 설정
 ### ShieldItem
-![sword](https://github.com/ojh6507/SPGTermProject/assets/45549589/24b0bb94-a6c2-4b01-a796-19e0daf76006)
+![shield](https://github.com/ojh6507/SPGTermProject/assets/45549589/5110669b-cf30-4410-b1ec-e0e147a9df82)
+
 
 #### 동작구성:
 MapObject를 상속 받음.

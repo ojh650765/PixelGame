@@ -22,14 +22,14 @@
 ## MainScene에 등장하는 gameObject
 ### WarriorHead : 
 ![rightface](https://github.com/ojh6507/SPGTermProject/assets/45549589/3733b354-f105-4b7d-82c0-4be9913ec72d)
-+#### 동작구성 및 핵심 코드
+#### 동작구성 및 핵심 코드
 **보드 벽과 충돌시 튕기는 움직임 구현**
 ```java
     public void update(float elapsedSeconds) {
         // x 위치 업데이트
-        x += dx * elapsedSeconds;
+        x = dx * elapsedSeconds;
         // y 위치 업데이트
-        y += dy * elapsedSeconds;
+        y = dy * elapsedSeconds;
         
         // 경계 충돌 검사 및 반응
         if (x < leftBound) {
@@ -67,14 +67,14 @@
                 targetY = pts[1];
                 targetRect.set(
                         targetX - TARGET_RADIUS, targetY - TARGET_RADIUS,
-                        targetX + TARGET_RADIUS, targetY + TARGET_RADIUS
+                        targetX  TARGET_RADIUS, targetY  TARGET_RADIUS
                 );
                 shouldDrawLine = true; 
                 return true;
             case MotionEvent.ACTION_UP:
                 float deltaX = targetX - x;  // X축 차이 계산
                 float deltaY = targetY - y;  // Y축 차이 계산
-                float distance = (float) Math.sqrt(deltaX * deltaX + deltaY * deltaY); //거리 계산
+                float distance = (float) Math.sqrt(deltaX * deltaX  deltaY * deltaY); //거리 계산
 
                 dx = SPEED * (deltaX / distance);
                 dy = SPEED * (deltaY / distance);
@@ -86,10 +86,10 @@
         return false;
     }
 ```
-+#### 상호작용 정보 :
+#### 상호작용 정보 :
 보드 경계, Item, Bomb, Obstacle과 충돌 상호작용
 
-### Board !
+### Board :
 ![tile1](https://github.com/ojh6507/SPGTermProject/assets/45549589/5a06d062-14b3-4dbc-949b-5f1b422edfa7)
 배경 역할.
 
@@ -97,8 +97,8 @@
 ![warrior_idle_animsheet](https://github.com/ojh6507/SPGTermProject/assets/45549589/c21a0325-89de-4415-816a-6c2b9b3118d9)
 ![warrior_animsheet](https://github.com/ojh6507/SPGTermProject/assets/45549589/9ae4835b-696e-4cce-8e49-6e25cb6b2534)
 
-+#### 동작 구성: SwordStrike를 생성합니다.
-+#### 핵심 코드: 상태에 따른 (idle, attacked, hitted) 애니메이션 변경
+#### 동작 구성: SwordStrike를 생성합니다.
+#### 핵심 코드: 상태에 따른 (idle, attacked, hitted) 애니메이션 변경
 ```java
 private static final int[] resIds = {
             R.mipmap.warrior_idle_animsheet,R.mipmap.warrior_animsheet
@@ -140,16 +140,16 @@ private static final int[] resIds = {
         }
     }
 ```
-+#### 상호작용 정보 :
+#### 상호작용 정보 :
 몬스터와 충돌시 데미지 적용
 
 ### Slime:
 ![red_slime_sheet](https://github.com/ojh6507/SPGTermProject/assets/45549589/08ad6b82-fffa-4c31-be6e-1b126f651519)
 ![blue_slime_sheet](https://github.com/ojh6507/SPGTermProject/assets/45549589/55744812-626f-4a19-942a-e2fcc2f9f6bc)
 
-+#### 동작 구성:
+#### 동작 구성:
 오른쪽에 미리 배치되어 있고 Turn이 시작될 때 왼쪽으로 한번 움직인다.
-+#### 핵심 코드: 
+#### 핵심 코드: 
 Turn이 시작될 때 Target을 새롭게 계산해서 움직임
 ```java
     @Override
@@ -181,17 +181,17 @@ Turn이 시작될 때 Target을 새롭게 계산해서 움직임
     }
 ```
 ### MapLoader
-+#### 동작구성:
+#### 동작구성:
 보드 위에 아이템과 장애물들을 생성하고 랜덤 배치
 
-+#### 핵심 코드
+#### 핵심 코드
 ```java
     public void ResetGenerateObjects(WarriorHead warriorHead){
         usedPositions.clear();
         int col = random.nextInt(9);
-        randomX = leftBound + (col * 0.64f);
+        randomX = leftBound  (col * 0.64f);
         int row = random.nextInt(9);
-        randomY = upperBound + (row * 0.66f);        
+        randomY = upperBound  (row * 0.66f);        
         String posKey = generatePositionKey(randomX, randomY); // string으로 hash생성
         warriorHead.setPosition(randomX,randomY);  // 플레이어 위치 랜덤 생성하고 배치
         usedPositions.add(posKey); // 중복확인을 위한 컨테이너
@@ -199,7 +199,7 @@ Turn이 시작될 때 Target을 새롭게 계산해서 움직임
         //아이템, 장애물들 생성
         generateObjects(OBSTACLE_COUNT, MainScene.Layer.obstacle);
         generateObjects(BOMB_COUNT, MainScene.Layer.bomb);
-        generateObjects(TOTAL_COUNT -PLAYER_COUNT - OBSTACLE_COUNT - BOMB_COUNT + 1, MainScene.Layer.item);
+        generateObjects(TOTAL_COUNT -PLAYER_COUNT - OBSTACLE_COUNT - BOMB_COUNT  1, MainScene.Layer.item);
     }
 
     private void generateObjects(int count, MainScene.Layer layerType) {
@@ -210,16 +210,16 @@ Turn이 시작될 때 Target을 새롭게 계산해서 움직임
         int objectsPlaced = 0;
         if (scene == null) return;
         while (objectsPlaced < count && attempts < attemptLimit) {
-            for (int i = 0; i < count; i++) {
+            for (int i = 0; i < count; i) {
                 calculatePositionX();
                 calculatePositionY();
                 String posKey = generatePositionKey(randomX, randomY);
                 if (!usedPositions.contains(posKey)) {
                    scene.add(layerType, createObject(layerType, randomX, randomY));
-                    ++objectsPlaced;
+                    objectsPlaced;
                 }
             }
-            ++attempts;
+            attempts;
         }
 
     }
@@ -251,20 +251,20 @@ Turn이 시작될 때 Target을 새롭게 계산해서 움직임
 
     private void calculatePositionX() { // 랜덤한 값  생성
         int col = random.nextInt(9);
-        randomX = leftBound + (col * 0.64f);
+        randomX = leftBound  (col * 0.64f);
     }
 
     private void calculatePositionY() { // 랜덤한 값  생성
         int row = random.nextInt(9);
-        randomY = upperBound + (row * 0.66f);
+        randomY = upperBound  (row * 0.66f);
     }
 ```
 
 ### TurnBasedController
-+#### 동작구성:
+#### 동작구성:
 1. 턴이 시작됐을 때 동작을 수행하도록 다른 오브젝트들의 함수 호출
 2. 턴 종료
-+#### 핵심 코드
+#### 핵심 코드
 ```java
     @Override
     public void update(float elapsedSeconds) {
@@ -308,25 +308,25 @@ Turn이 시작될 때 Target을 새롭게 계산해서 움직임
 ### SwordItem
 ![sword](https://github.com/ojh6507/SPGTermProject/assets/45549589/7b84cf71-b369-4430-a2b9-ad766dd7832e)
 
-+#### 동작구성:
+#### 동작구성:
 MapObject를 상속 받음.
 SwordItem 리소스 설정
 ### ShieldItem
 ![sword](https://github.com/ojh6507/SPGTermProject/assets/45549589/24b0bb94-a6c2-4b01-a796-19e0daf76006)
 
-+#### 동작구성:
+#### 동작구성:
 MapObject를 상속 받음.
 SwordItem 리소스 설정
 
 ### Obstacle
 ![obstacle](https://github.com/ojh6507/SPGTermProject/assets/45549589/61a3d4d6-3aad-4be2-8542-7337e3c92e47)
-+#### 동작구성:
+#### 동작구성:
 Obstacle 리소스 설정
 
 ### CollisionChecker
-+#### 동작구성:
+#### 동작구성:
 객체들을 AABB로 충돌 검사한다.
-+#### 핵심 코드:
+#### 핵심 코드:
 WarriorHead와 Obstacle 충돌시 입사각, 반사각 계산
 ```java
     public void updateDirectionAfterCollision(RectF obstacleRect, RectF headRect) {
@@ -337,8 +337,8 @@ WarriorHead와 Obstacle 충돌시 입사각, 반사각 계산
         float normalX = 0;
         float normalY = 0;
 
-        float deltaX = (headRect.left + headRect.width() / 2) - (obstacleRect.left + obstacleRect.width() / 2);
-        float deltaY = (headRect.top + headRect.height() / 2) - (obstacleRect.top + obstacleRect.height() / 2);
+        float deltaX = (headRect.left  headRect.width() / 2) - (obstacleRect.left  obstacleRect.width() / 2);
+        float deltaY = (headRect.top  headRect.height() / 2) - (obstacleRect.top  obstacleRect.height() / 2);
 
         if (Math.abs(deltaX) > Math.abs(deltaY)) {
             // 수평 충돌
@@ -349,7 +349,7 @@ WarriorHead와 Obstacle 충돌시 입사각, 반사각 계산
         }
 
         // 내적 계산
-        float dotProduct = incidentX * normalX + incidentY * normalY;
+        float dotProduct = incidentX * normalX  incidentY * normalY;
 
         // 반사 벡터 계산
         float reflectedX = incidentX - 2 * dotProduct * normalX;

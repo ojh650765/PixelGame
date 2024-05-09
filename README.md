@@ -91,8 +91,9 @@
 
 ### Board :
 ![tile1](https://github.com/ojh6507/SPGTermProject/assets/45549589/5a06d062-14b3-4dbc-949b-5f1b422edfa7)
+
 배경 역할.
-### SwordStrike를 :
+### SwordStrike :
 ![swordstrike](https://github.com/ojh6507/SPGTermProject/assets/45549589/e577a92d-6b69-4de9-a20a-0f3c01e90cec)
 #### 동작 구성: 리소스를 설정, 이동 방향 설정
 

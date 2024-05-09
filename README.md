@@ -20,9 +20,9 @@
 
 ********
 ## MainScene에 등장하는 gameObject
-### WarriorHead ! 
+### WarriorHead : 
 ![rightface](https://github.com/ojh6507/SPGTermProject/assets/45549589/3733b354-f105-4b7d-82c0-4be9913ec72d)
-#### 동작구성 및 핵심 코드
++#### 동작구성 및 핵심 코드
 **보드 벽과 충돌시 튕기는 움직임 구현**
 ```java
     public void update(float elapsedSeconds) {
@@ -86,7 +86,7 @@
         return false;
     }
 ```
-#### 상호작용 정보 :
++#### 상호작용 정보 :
 보드 경계, Item, Bomb, Obstacle과 충돌 상호작용
 
 ### Board !
@@ -97,8 +97,8 @@
 ![warrior_idle_animsheet](https://github.com/ojh6507/SPGTermProject/assets/45549589/c21a0325-89de-4415-816a-6c2b9b3118d9)
 ![warrior_animsheet](https://github.com/ojh6507/SPGTermProject/assets/45549589/9ae4835b-696e-4cce-8e49-6e25cb6b2534)
 
-#### 동작 구성: SwordStrike를 생성합니다.
-#### 핵심 코드: 상태에 따른 (idle, attacked, hitted) 애니메이션 변경
++#### 동작 구성: SwordStrike를 생성합니다.
++#### 핵심 코드: 상태에 따른 (idle, attacked, hitted) 애니메이션 변경
 ```java
 private static final int[] resIds = {
             R.mipmap.warrior_idle_animsheet,R.mipmap.warrior_animsheet
@@ -140,16 +140,16 @@ private static final int[] resIds = {
         }
     }
 ```
-#### 상호작용 정보 :
++#### 상호작용 정보 :
 몬스터와 충돌시 데미지 적용
 
 ### Slime:
 ![red_slime_sheet](https://github.com/ojh6507/SPGTermProject/assets/45549589/08ad6b82-fffa-4c31-be6e-1b126f651519)
 ![blue_slime_sheet](https://github.com/ojh6507/SPGTermProject/assets/45549589/55744812-626f-4a19-942a-e2fcc2f9f6bc)
 
-#### 동작 구성:
++#### 동작 구성:
 오른쪽에 미리 배치되어 있고 Turn이 시작될 때 왼쪽으로 한번 움직인다.
-#### 핵심 코드: 
++#### 핵심 코드: 
 Turn이 시작될 때 Target을 새롭게 계산해서 움직임
 ```java
     @Override
@@ -181,10 +181,10 @@ Turn이 시작될 때 Target을 새롭게 계산해서 움직임
     }
 ```
 ### MapLoader
-#### 동작구성:
++#### 동작구성:
 보드 위에 아이템과 장애물들을 생성하고 랜덤 배치
 
-#### 핵심 코드
++#### 핵심 코드
 ```java
     public void ResetGenerateObjects(WarriorHead warriorHead){
         usedPositions.clear();
@@ -261,10 +261,10 @@ Turn이 시작될 때 Target을 새롭게 계산해서 움직임
 ```
 
 ### TurnBasedController
-#### 동작구성:
++#### 동작구성:
 1. 턴이 시작됐을 때 동작을 수행하도록 다른 오브젝트들의 함수 호출
 2. 턴 종료
-#### 핵심 코드
++#### 핵심 코드
 ```java
     @Override
     public void update(float elapsedSeconds) {
@@ -308,25 +308,25 @@ Turn이 시작될 때 Target을 새롭게 계산해서 움직임
 ### SwordItem
 ![sword](https://github.com/ojh6507/SPGTermProject/assets/45549589/7b84cf71-b369-4430-a2b9-ad766dd7832e)
 
-#### 동작구성:
++#### 동작구성:
 MapObject를 상속 받음.
 SwordItem 리소스 설정
 ### ShieldItem
 ![sword](https://github.com/ojh6507/SPGTermProject/assets/45549589/24b0bb94-a6c2-4b01-a796-19e0daf76006)
 
-#### 동작구성:
++#### 동작구성:
 MapObject를 상속 받음.
 SwordItem 리소스 설정
 
 ### Obstacle
 ![obstacle](https://github.com/ojh6507/SPGTermProject/assets/45549589/61a3d4d6-3aad-4be2-8542-7337e3c92e47)
-#### 동작구성:
++#### 동작구성:
 Obstacle 리소스 설정
 
 ### CollisionChecker
-#### 동작구성:
++#### 동작구성:
 객체들을 AABB로 충돌 검사한다.
-#### 핵심 코드:
++#### 핵심 코드:
 WarriorHead와 Obstacle 충돌시 입사각, 반사각 계산
 ```java
     public void updateDirectionAfterCollision(RectF obstacleRect, RectF headRect) {

@@ -24,7 +24,8 @@
 |:-------:|:-----------:|:------------:|:-------------:|:---------:|:----------------:|:--------------:|:------:|:------:|
 | 1  | 3 | 18 | 15 | 6 | 0 |0 |0|
 ********
-![GIFMaker_me](https://github.com/ojh6507/SPGTermProject/assets/45549589/d617d3b9-346c-456a-8238-598bcc8dd56c)
+
+![GIFMaker_me (1)](https://github.com/ojh6507/SPGTermProject/assets/45549589/e61149d0-7e70-4fee-9dd2-da166db914f1)
 
 ********
 ## MainScene에 등장하는 gameObject

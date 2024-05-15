@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 
 import java.util.ArrayList;
 
+import kr.ac.tukorea.ge.spg.ojh.framework.interfaces.ITouchable;
 import kr.ac.tukorea.ge.spg.ojh.pixelgame.BuildConfig;
 import kr.ac.tukorea.ge.spg.ojh.framework.activity.GameActivity;
 import kr.ac.tukorea.ge.spg.ojh.framework.interfaces.IBoxCollidable;
@@ -71,7 +72,9 @@ public class Scene {
     public static void finishActivity() {
         //GameView gameView = null;
         //gaveView.getActivity().finish();
-        GameActivity.activity.finish();
+        if (GameActivity.activity != null) {
+            GameActivity.activity.finish();
+        }
     }
 
     public static void pauseTop() {
@@ -145,9 +148,7 @@ public class Scene {
         }
     }
 
-    public boolean onTouch(MotionEvent event) {
-        return false;
-    }
+
 
     //////////////////////////////////////////////////
     // Overridables
@@ -166,7 +167,9 @@ public class Scene {
     public boolean onBackPressed() {
         return false;
     }
-
+    public boolean isTransparent() {
+        return false;
+    }
     //////////////////////////////////////////////////
     // Game Object Management
 
@@ -182,5 +185,23 @@ public class Scene {
             RecycleBin.collect((IRecyclable) gameObject);
         }
     }
+
+    protected int getTouchLayerIndex() {
+        return -1;
+    }
+    public boolean onTouch(MotionEvent event) {
+        int touchLayer = getTouchLayerIndex();
+        if (touchLayer < 0) return false;
+        ArrayList<IGameObject> gameObjects = layers.get(touchLayer);
+        for (IGameObject gobj : gameObjects) {
+            if (!(gobj instanceof ITouchable)) {
+                continue;
+            }
+            boolean processed = ((ITouchable) gobj).onTouchEvent(event);
+            if (processed) return true;
+        }
+        return false;
+    }
+
 
 }

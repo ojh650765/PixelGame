@@ -6,6 +6,13 @@ android {
     namespace = "kr.ac.tukorea.ge.spg.ojh.pixelgame"
     compileSdk = 34
 
+    buildFeatures {
+        viewBinding = true
+        buildConfig = true
+        dataBinding = true
+
+    }
+
     defaultConfig {
         applicationId = "kr.ac.tukorea.ge.spg.ojh.pixelgame"
         minSdk = 24
@@ -14,12 +21,6 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildFeatures {
-        viewBinding = true
-        buildConfig = true
-
     }
 
     buildTypes {

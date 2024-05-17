@@ -35,6 +35,8 @@ public class WarriorHead extends Sprite implements IBoxCollidable {
 
     private RectF targetRect = new RectF();
     private float power;
+    private float fullHP = 100;
+    private float currentHP=fullHP;
 
 
     private Paint getDashedLinePaint() {
@@ -176,8 +178,12 @@ public class WarriorHead extends Sprite implements IBoxCollidable {
     public float GetPower() {
         return power;
     }
-
+    public float GetHP() {return currentHP/fullHP; }
+    public void GetDamage(float damage) { currentHP -= damage; }
     public void UpdatePower(float power) {
         this.power = power;
+    }
+    public void PowerUp(float power) {
+        this.power += power;
     }
 }

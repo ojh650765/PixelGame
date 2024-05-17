@@ -14,12 +14,15 @@ public class MainScene extends Scene {
     //Score score; // package private
 
     public enum Layer {
-        bg, board,item, up_player,under_player, enemy, slash, obstacle,bomb, controller, COUNT
+        bg,board,item, up_player,under_player, enemy, slash, obstacle,bomb, controller,ui,COUNT
     }
     public MainScene() {
         initLayers(Layer.COUNT);
         this.warriorHead = new WarriorHead();
         this.warrior = new Warrior();
+        add(Layer.ui,new HealthBar(Layer.ui));
+        add(Layer.ui,new FillHealth(Layer.ui, warriorHead));
+        add(Layer.board,new Board(Layer.board));
         MapLoader mapLoader =new MapLoader(this);
 
         add(Layer.controller, new EnemyGenerator(this));
@@ -27,10 +30,12 @@ public class MainScene extends Scene {
 
         add(Layer.controller, mapLoader);
         add(Layer.controller, GameStateManager.getInstance());
+
         mapLoader.ResetGenerateObjects(this.warriorHead);
         add(Layer.controller,new TurnBasedController(this,mapLoader,warriorHead,this.warrior));
         add(Layer.bg, new HorizonBackground(R.mipmap.bg_forest));
-        add(Layer.board,new Board(Layer.board));
+
+
         add(Layer.under_player, warriorHead);
         add(Layer.up_player, warrior);
     }

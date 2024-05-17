@@ -10,7 +10,6 @@ import kr.ac.tukorea.ge.spg.ojh.framework.scene.Scene;
 
 public class EnemyGenerator implements IGameObject {
     private static final String TAG = EnemyGenerator.class.getSimpleName();
-    private final Random random = new Random();
 
     private int wave=0;
     private  Scene scene;
@@ -24,14 +23,8 @@ public class EnemyGenerator implements IGameObject {
 
     private void generate() {
         if (scene == null) return;
-
-        wave++;
-        Log.v(TAG, "Generating: wave " + wave);
-        for (int i = 0; i < 5; i++) {
-            int level = (wave + 15) / 10 - random.nextInt(3);
-            if (level < 0) level = 0;
-            if (level > Slime.MAX_LEVEL) level = Slime.MAX_LEVEL;
-            scene.add(MainScene.Layer.enemy, Slime.get(level, i));
+        for (int i = 0; i < 3; i++) {
+            scene.add(MainScene.Layer.enemy, Slime.get(i));
         }
     }
 

@@ -51,7 +51,7 @@ public class CollisionChecker implements IGameObject {
             Item item = (Item) gobj;
             if (CollisionHelper.collides(warriorHead, item)) {
                 if(item instanceof SwordItem)
-                    warriorHead.UpdatePower(10);
+                    warriorHead.PowerUp(0.1f);
 
                 scene.remove(MainScene.Layer.item, gobj);
             }
@@ -68,6 +68,8 @@ public class CollisionChecker implements IGameObject {
                     boolean dead = enemy.ApplyDamage(warriorHead.GetPower());
                     if (dead) {
                         scene.remove(MainScene.Layer.enemy, enemy);
+                    }else{
+                        enemy.ChangeState(Slime.State.hitted);
                     }
                     break;
                 }

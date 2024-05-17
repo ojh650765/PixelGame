@@ -29,13 +29,14 @@ public class TurnBasedController implements IGameObject {
             ArrayList<IGameObject> Slimes = scene.objectsAt(MainScene.Layer.enemy);
             for (int s = Slimes.size() - 1; s >= 0; s--) {
                 Slime slime = (Slime) Slimes.get(s);
-                slime.startLeftMove(2.f);
+                slime.startLeftMove(1.f);
             }
-
-            GameStateManager.getInstance().setTurnActive(false);
             RemoveAllObjects();
-            warriorHead.ResetMove();
             this.mapLoader.ResetGenerateObjects(warriorHead);
+            warriorHead.ResetMove();
+            warriorHead.UpdatePower(1);
+            GameStateManager.getInstance().setTurnActive(false);
+
         }
     }
 

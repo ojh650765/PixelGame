@@ -59,8 +59,6 @@ public class Warrior extends AnimSprite {
                 break;
             }
             if(frameIndex!=WARRIOR_ATTACK_MOTION_FRAME) attaked = false;
-
-
             break;
             case idle:
                 ChangeAnimSprite(resIds[0],ANIM_IDLE_FPS);

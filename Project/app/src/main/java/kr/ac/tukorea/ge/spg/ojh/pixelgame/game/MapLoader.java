@@ -21,10 +21,10 @@ public class MapLoader implements IGameObject {
     private static final float rightBound = Metrics.width / 2 + SideX;
     private static final float upperBound = Metrics.height / 2 - SideY + 2.9f;
     private static final  float lowerBound = Metrics.height / 2 + SideY;
-    private static final int TOTAL_COUNT = 81;
+    private static final int TOTAL_COUNT = 60;
     private static final  int PLAYER_COUNT = 1;
-    private static final  int OBSTACLE_COUNT = 4;
-    private static final  int BOMB_COUNT = 3;
+    private static final  int OBSTACLE_COUNT = 5;
+    private static final  int BOMB_COUNT = 5;
     private float randomX = 0;
     private float randomY = 0;
 

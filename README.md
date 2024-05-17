@@ -27,6 +27,7 @@ Pixel Game
 
 ********
 # MainScene에 등장하는 gameObject
+
 ## WarriorHead
 ![rightface](https://github.com/ojh6507/SPGTermProject/assets/45549589/3733b354-f105-4b7d-82c0-4be9913ec72d)
 #### 동작구성
@@ -35,10 +36,6 @@ Pixel Game
 #### 상호작용 정보
 > 보드 경계, Item, Bomb, Obstacle과 충돌 상호작용
 
-## Board :
-![tile1](https://github.com/ojh6507/SPGTermProject/assets/45549589/5a06d062-14b3-4dbc-949b-5f1b422edfa7)
-
-배경 역할.
 ## SwordStrike
 ![swordstrike](https://github.com/ojh6507/SPGTermProject/assets/45549589/e577a92d-6b69-4de9-a20a-0f3c01e90cec)
 #### 동작 구성

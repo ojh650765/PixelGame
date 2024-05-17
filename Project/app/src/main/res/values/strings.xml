@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PixelGame</string>
+    <string name="title_stage_fmt">Stage %d</string>
 </resources>

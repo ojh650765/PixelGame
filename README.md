@@ -49,7 +49,8 @@
 ![warrior_idle_animsheet](https://github.com/ojh6507/SPGTermProject/assets/45549589/c21a0325-89de-4415-816a-6c2b9b3118d9)
 ![warrior_animsheet](https://github.com/ojh6507/SPGTermProject/assets/45549589/9ae4835b-696e-4cce-8e49-6e25cb6b2534)
 
-#### 동작 구성: SwordStrike를 생성합니다. 상태에 따라 (idle, attacked, hitted) 애니메이션 변경
+#### 동작 구성:
+SwordStrike를 생성합니다. 상태에 따라 (idle, attacked, hitted) 애니메이션 변경
 
 #### 상호작용 정보 :
 몬스터와 충돌시 데미지 적용

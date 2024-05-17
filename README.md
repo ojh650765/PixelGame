@@ -72,7 +72,7 @@ Pixel Game
 ## TurnBasedController
 #### 동작구성
 > 1. 턴이 시작됐을 때 동작을 수행하도록 다른 오브젝트들의 함수 호출
-> 2. 2. 턴 종료
+> 2. 턴 종료
 
 ## SwordItem
 ![sword](https://github.com/ojh6507/SPGTermProject/assets/45549589/7b84cf71-b369-4430-a2b9-ad766dd7832e)

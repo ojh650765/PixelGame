@@ -6,6 +6,8 @@ import android.util.Log;
 import java.util.ArrayList;
 
 import kr.ac.tukorea.ge.spg.ojh.framework.interfaces.IGameObject;
+import kr.ac.tukorea.ge.spg.ojh.framework.scene.Scene;
+import kr.ac.tukorea.ge.spg.ojh.pixelgame.game.GameOverScene;
 import kr.ac.tukorea.ge.spg.ojh.framework.util.CollisionHelper;
 
 public class TurnBasedController implements IGameObject {
@@ -13,11 +15,11 @@ public class TurnBasedController implements IGameObject {
     private final MainScene scene;
     private final WarriorHead warriorHead;
     private final Warrior warrior;
-    private MapLoader mapLoader;
+    private TileGenerator tileGenerator;
 
-    public TurnBasedController(MainScene scene, MapLoader mapLoader, WarriorHead warriorHead, Warrior warrior) {
+    public TurnBasedController(MainScene scene, TileGenerator tileGenerator, WarriorHead warriorHead, Warrior warrior) {
         this.scene = scene;
-        this.mapLoader = mapLoader;
+        this.tileGenerator = tileGenerator;
         this.warriorHead =warriorHead;
         this.warrior = warrior;
     }
@@ -29,14 +31,18 @@ public class TurnBasedController implements IGameObject {
             ArrayList<IGameObject> Slimes = scene.objectsAt(MainScene.Layer.enemy);
             for (int s = Slimes.size() - 1; s >= 0; s--) {
                 Slime slime = (Slime) Slimes.get(s);
-                slime.startLeftMove(1.f);
+                slime.startLeftMove(slime.getMoveDistance());
+                if(slime.GetAttackStats()){
+                    warriorHead.GetDamage(slime.GetPower());
+                }
             }
             RemoveAllObjects();
-            this.mapLoader.ResetGenerateObjects(warriorHead);
+            this.tileGenerator.ResetGenerateObjects(warriorHead);
             warriorHead.ResetMove();
-            warriorHead.UpdatePower(1);
             GameStateManager.getInstance().setTurnActive(false);
-
+        }
+        if(warriorHead.GetHP()<= 0){
+            new GameOverScene().push();
         }
     }
 

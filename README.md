@@ -95,8 +95,7 @@ Pixel Game
 > Sprite 상속 받음.
 #### 상호작용 정보
 > Warrior Head와 Obstacle 충돌시 반사각으로 Warrior Head가 날라감.
-
-Obstacle 리소스 설정.
+> Obstacle 리소스 설정.
 
 ## Bomb
 ![bomb](https://github.com/ojh6507/SPGTermProject/assets/45549589/524ada5c-49f2-4908-88c0-d8126356fad8)

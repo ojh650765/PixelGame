@@ -30,6 +30,7 @@ Pixel Game
 
 ## WarriorHead
 ![rightface](https://github.com/ojh6507/SPGTermProject/assets/45549589/3733b354-f105-4b7d-82c0-4be9913ec72d)
+
 #### 동작구성
 > 보드 벽과 충돌시 튕기는 움직임 구현
 
@@ -38,6 +39,7 @@ Pixel Game
 
 ## SwordStrike
 ![swordstrike](https://github.com/ojh6507/SPGTermProject/assets/45549589/e577a92d-6b69-4de9-a20a-0f3c01e90cec)
+
 #### 동작 구성
 > 리소스를 설정, 이동 방향 설정
 
@@ -55,6 +57,7 @@ Pixel Game
 ## Slime:
 ![red_slime_sheet](https://github.com/ojh6507/SPGTermProject/assets/45549589/08ad6b82-fffa-4c31-be6e-1b126f651519)
 ![blue_slime_sheet](https://github.com/ojh6507/SPGTermProject/assets/45549589/55744812-626f-4a19-942a-e2fcc2f9f6bc)
+
 #### 동작 구성
 > 오른쪽에 미리 배치되어 있고 Turn이 시작될 때 왼쪽으로 한번 움직인다.
 > Turn이 시작될 때 Target을 새롭게 계산해서 움직임
@@ -74,8 +77,8 @@ Pixel Game
 
 #### 동작구성
 > MapObject를 상속 받음.
+> SwordItem 리소스 설정
 
-  SwordItem 리소스 설정
 ## ShieldItem
 ![shield](https://github.com/ojh6507/SPGTermProject/assets/45549589/5110669b-cf30-4410-b1ec-e0e147a9df82)
 
@@ -86,16 +89,20 @@ Pixel Game
 
 ## Obstacle
 ![obstacle](https://github.com/ojh6507/SPGTermProject/assets/45549589/61a3d4d6-3aad-4be2-8542-7337e3c92e47)
+
 #### 동작구성
 > Sprite 상속 받음.
+
 #### 상호작용 정보
 > Warrior Head와 Obstacle 충돌시 반사각으로 Warrior Head가 날라감.
 > Obstacle 리소스 설정.
 
 ## Bomb
 ![bomb](https://github.com/ojh6507/SPGTermProject/assets/45549589/524ada5c-49f2-4908-88c0-d8126356fad8)
+
 #### 동작구성
 > Sprite 상속 받음
+
 #### 상호작용 정보
 > Warrior Head와 Bomb 충돌시 Warrior Head는 날라가는 움직임을 멈춘다.
 

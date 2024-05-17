@@ -1,4 +1,4 @@
-# Pixel Game
+Pixel Game
 =============
 ## 게임 소개
 턴제 게임
@@ -28,8 +28,8 @@
 ![GIFMaker_me (1)](https://github.com/ojh6507/SPGTermProject/assets/45549589/e61149d0-7e70-4fee-9dd2-da166db914f1)
 
 ********
-## MainScene에 등장하는 gameObject
-### WarriorHead : 
+# MainScene에 등장하는 gameObject
+## WarriorHead : 
 ![rightface](https://github.com/ojh6507/SPGTermProject/assets/45549589/3733b354-f105-4b7d-82c0-4be9913ec72d)
 #### 동작구성
 **보드 벽과 충돌시 튕기는 움직임 구현**
@@ -37,15 +37,15 @@
 #### 상호작용 정보 :
 보드 경계, Item, Bomb, Obstacle과 충돌 상호작용
 
-### Board :
+## Board :
 ![tile1](https://github.com/ojh6507/SPGTermProject/assets/45549589/5a06d062-14b3-4dbc-949b-5f1b422edfa7)
 
 배경 역할.
-### SwordStrike :
+## SwordStrike :
 ![swordstrike](https://github.com/ojh6507/SPGTermProject/assets/45549589/e577a92d-6b69-4de9-a20a-0f3c01e90cec)
 #### 동작 구성: 리소스를 설정, 이동 방향 설정
 
-### Warrior :
+## Warrior :
 ![warrior_idle_animsheet](https://github.com/ojh6507/SPGTermProject/assets/45549589/c21a0325-89de-4415-816a-6c2b9b3118d9)
 ![warrior_animsheet](https://github.com/ojh6507/SPGTermProject/assets/45549589/9ae4835b-696e-4cce-8e49-6e25cb6b2534)
 
@@ -55,7 +55,7 @@ SwordStrike를 생성합니다. 상태에 따라 (idle, attacked, hitted) 애니
 #### 상호작용 정보 :
 몬스터와 충돌시 데미지 적용
 
-### Slime:
+## Slime:
 ![red_slime_sheet](https://github.com/ojh6507/SPGTermProject/assets/45549589/08ad6b82-fffa-4c31-be6e-1b126f651519)
 ![blue_slime_sheet](https://github.com/ojh6507/SPGTermProject/assets/45549589/55744812-626f-4a19-942a-e2fcc2f9f6bc)
 
@@ -63,24 +63,24 @@ SwordStrike를 생성합니다. 상태에 따라 (idle, attacked, hitted) 애니
 오른쪽에 미리 배치되어 있고 Turn이 시작될 때 왼쪽으로 한번 움직인다.
 Turn이 시작될 때 Target을 새롭게 계산해서 움직임
 
-### MapLoader
+## MapLoader
 #### 동작구성:
 보드 위에 아이템과 장애물들을 생성하고 랜덤 배치
 
 
-### TurnBasedController
+## TurnBasedController
 #### 동작구성:
 1. 턴이 시작됐을 때 동작을 수행하도록 다른 오브젝트들의 함수 호출
 2. 턴 종료
 
-### SwordItem
+## SwordItem
 ![sword](https://github.com/ojh6507/SPGTermProject/assets/45549589/7b84cf71-b369-4430-a2b9-ad766dd7832e)
 
 #### 동작구성:
 MapObject를 상속 받음.
 
 SwordItem 리소스 설정
-### ShieldItem
+## ShieldItem
 ![shield](https://github.com/ojh6507/SPGTermProject/assets/45549589/5110669b-cf30-4410-b1ec-e0e147a9df82)
 
 
@@ -89,7 +89,7 @@ MapObject를 상속 받음.
 
 SwordItem 리소스 설정
 
-### Obstacle
+## Obstacle
 ![obstacle](https://github.com/ojh6507/SPGTermProject/assets/45549589/61a3d4d6-3aad-4be2-8542-7337e3c92e47)
 #### 동작구성:
 Sprite 상속 받음.
@@ -98,7 +98,7 @@ Warrior Head와 Obstacle 충돌시 반사각으로 Warrior Head가 날라감.
 
 Obstacle 리소스 설정.
 
-### Bomb
+## Bomb
 ![bomb](https://github.com/ojh6507/SPGTermProject/assets/45549589/524ada5c-49f2-4908-88c0-d8126356fad8)
 #### 동작구성:
 Sprite 상속 받음

@@ -82,7 +82,5 @@ public class Warrior extends AnimSprite {
 
     }
 
-    public boolean onTouch(MotionEvent event) {
-        return false;
-    }
 }
+

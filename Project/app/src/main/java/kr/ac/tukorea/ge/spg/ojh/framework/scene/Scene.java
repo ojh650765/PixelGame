@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import java.util.ArrayList;
 
 import kr.ac.tukorea.ge.spg.ojh.framework.interfaces.ITouchable;
+import kr.ac.tukorea.ge.spg.ojh.framework.view.Metrics;
 import kr.ac.tukorea.ge.spg.ojh.pixelgame.BuildConfig;
 import kr.ac.tukorea.ge.spg.ojh.framework.activity.GameActivity;
 import kr.ac.tukorea.ge.spg.ojh.framework.interfaces.IBoxCollidable;
@@ -20,6 +21,8 @@ public class Scene {
 
     private static final String TAG = Scene.class.getSimpleName();
     private static ArrayList<Scene> stack = new ArrayList<>();
+
+    public static boolean drawsDebugInfo = false;
 
     public static Scene top() {
         int top = stack.size() - 1;
@@ -37,10 +40,24 @@ public class Scene {
         stack.add(scene);
         scene.onStart();
     }
-
     public void push() {
         push(this);
     }
+
+    public static void change(Scene scene) {
+        Scene prev = top();
+        if (prev != null) {
+            scene.onEnd();
+        }
+        int topIndex = stack.size() - 1;
+        stack.set(topIndex, scene);
+        scene.onStart();
+    }
+
+    public void change() {
+        change(this);
+    }
+
     public static void pop() {
         Scene scene = top();
         if (scene == null) {
@@ -70,8 +87,6 @@ public class Scene {
     }
 
     public static void finishActivity() {
-        //GameView gameView = null;
-        //gaveView.getActivity().finish();
         if (GameActivity.activity != null) {
             GameActivity.activity.finish();
         }
@@ -126,18 +141,29 @@ public class Scene {
 
     protected static Paint bboxPaint;
     public void draw(Canvas canvas) {
-        for (ArrayList<IGameObject> objects: layers) {
+        draw(canvas, stack.size() - 1);
+    }
+    protected static void draw(Canvas canvas, int index) {
+        Scene scene = stack.get(index);
+        if (scene.isTransparent() && index > 0) {
+            draw(canvas, index - 1);
+        }
+
+        if (scene.clipsRect()) {
+            canvas.clipRect(0, 0, Metrics.width, Metrics.height);
+        }
+        for (ArrayList<IGameObject> objects: scene.layers) {
             for (IGameObject gobj : objects) {
                 gobj.draw(canvas);
             }
         }
-        if (BuildConfig.DEBUG) {
+        if (Scene.drawsDebugInfo) {
             if (bboxPaint == null) {
                 bboxPaint = new Paint();
                 bboxPaint.setStyle(Paint.Style.STROKE);
                 bboxPaint.setColor(Color.RED);
             }
-            for (ArrayList<IGameObject> objects: layers) {
+            for (ArrayList<IGameObject> objects: scene.layers) {
                 for (IGameObject gobj : objects) {
                     if (gobj instanceof IBoxCollidable) {
                         RectF rect = ((IBoxCollidable) gobj).getCollisionRect();
@@ -145,44 +171,6 @@ public class Scene {
                     }
                 }
             }
-        }
-    }
-
-
-
-    //////////////////////////////////////////////////
-    // Overridables
-
-
-    protected void onStart() {
-    }
-    protected void onEnd() {
-    }
-
-    protected void onPause() {
-    }
-    protected void onResume() {
-    }
-
-    public boolean onBackPressed() {
-        return false;
-    }
-    public boolean isTransparent() {
-        return false;
-    }
-    //////////////////////////////////////////////////
-    // Game Object Management
-
-    public <E extends Enum<E>> void add(E layer, IGameObject gameObject) {
-        ArrayList<IGameObject> objects = layers.get(layer.ordinal());
-        objects.add(gameObject);
-    }
-
-    public <E extends Enum<E>> void remove(E layer, IGameObject gameObject) {
-        ArrayList<IGameObject> objects = layers.get(layer.ordinal());
-        objects.remove(gameObject);
-        if (gameObject instanceof IRecyclable) {
-            RecycleBin.collect((IRecyclable) gameObject);
         }
     }
 
@@ -203,5 +191,45 @@ public class Scene {
         return false;
     }
 
+    //////////////////////////////////////////////////
+    // Overridables
+
+    protected void onStart() {
+    }
+    protected void onEnd() {
+    }
+
+    protected void onPause() {
+    }
+    protected void onResume() {
+    }
+
+    public boolean onBackPressed() {
+        return false;
+    }
+
+    public boolean clipsRect() {
+        return true;
+    }
+
+    public boolean isTransparent() {
+        return false;
+    }
+
+    //////////////////////////////////////////////////
+    // Game Object Management
+
+    public <E extends Enum<E>> void add(E layer, IGameObject gameObject) {
+        ArrayList<IGameObject> objects = layers.get(layer.ordinal());
+        objects.add(gameObject);
+    }
+
+    public <E extends Enum<E>> void remove(E layer, IGameObject gameObject) {
+        ArrayList<IGameObject> objects = layers.get(layer.ordinal());
+        objects.remove(gameObject);
+        if (gameObject instanceof IRecyclable) {
+            RecycleBin.collect((IRecyclable) gameObject);
+        }
+    }
 
 }

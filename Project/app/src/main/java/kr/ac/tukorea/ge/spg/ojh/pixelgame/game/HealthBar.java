@@ -16,7 +16,7 @@ public class HealthBar extends Sprite {
     protected HealthBar (MainScene.Layer layer) {
         super(R.mipmap.void_bar);
         this.layer = layer;
-        setPosition(Metrics.width/9, Metrics.height/2.5f ,HEALTH_WIDTH, HEALTH_HEIGHT);
+        setPosition(Metrics.width/6, Metrics.height/2.5f ,HEALTH_WIDTH, HEALTH_HEIGHT);
     }
     @NonNull
     @Override

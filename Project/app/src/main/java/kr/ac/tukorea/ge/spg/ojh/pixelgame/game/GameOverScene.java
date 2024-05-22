@@ -24,7 +24,7 @@ public class GameOverScene extends Scene {
         title = new Sprite(R.mipmap.game_over, cx, cy, 3.69f, 3.69f);
         add(Layer.title, title);
 
-        add(Layer.touch, new Button(R.mipmap.btn_exit_n, 8f, cy + 2.5f, 2.667f, 1f, new Button.Callback() {
+        add(Layer.touch, new Button(R.mipmap.btn_exit_n, cx, cy + 2.5f, 2.667f, 1f, new Button.Callback() {
             @Override
             public boolean onTouch(Button.Action action) {
                 finishActivity();

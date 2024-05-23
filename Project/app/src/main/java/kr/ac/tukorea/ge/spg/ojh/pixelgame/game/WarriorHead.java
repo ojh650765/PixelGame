@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -55,12 +56,13 @@ public class WarriorHead extends Sprite implements IBoxCollidable {
         super(R.mipmap.rightface);
         setPosition(leftBound, lowerBound, HEAD_WIDTH, HEAD_HEIGHT);
     }
-
+    
     @Override
     public void update(float elapsedSeconds) {
         // x 위치 업데이트
         x += dx * elapsedSeconds;
         y += dy * elapsedSeconds;
+
 
         // 경계 충돌 검사 및 반응
         if (x < leftBound) {
@@ -95,22 +97,42 @@ public class WarriorHead extends Sprite implements IBoxCollidable {
     }
 
     public boolean onTouch(MotionEvent event) {
+
         if (Warriormove) {
             return false;
         }
+        float[] pts = Metrics.fromScreen(event.getX(), event.getY());
+        float touchX = pts[0];
+        float touchY = pts[1];
+
         switch (event.getAction()) {
 
             case MotionEvent.ACTION_DOWN:
+                if (isTouchInsideHead(touchX, touchY)) {
+                    targetX = touchX;
+                    targetY = touchY;
+
+                    targetRect.set(
+                            targetX - TARGET_RADIUS, targetY - TARGET_RADIUS,
+                            targetX + TARGET_RADIUS, targetY + TARGET_RADIUS
+                    );
+
+                    shouldDrawLine = true;
+                    return true;
+                }
+                break;
             case MotionEvent.ACTION_MOVE:
-                float[] pts = Metrics.fromScreen(event.getX(), event.getY());
-                targetX = pts[0];
-                targetY = pts[1];
-                targetRect.set(
-                        targetX - TARGET_RADIUS, targetY - TARGET_RADIUS,
-                        targetX + TARGET_RADIUS, targetY + TARGET_RADIUS
-                );
-                shouldDrawLine = true;
-                return true;
+                if (shouldDrawLine) {
+                    targetX = touchX;
+                    targetY = touchY;
+
+                    targetRect.set(
+                            targetX - TARGET_RADIUS, targetY - TARGET_RADIUS,
+                            targetX + TARGET_RADIUS, targetY + TARGET_RADIUS
+                    );
+                    return true;
+                }
+                break;
             case MotionEvent.ACTION_UP:
                 float deltaX = targetX - x;  // X축 차이 계산
                 float deltaY = targetY - y;  // Y축 차이 계산
@@ -134,7 +156,10 @@ public class WarriorHead extends Sprite implements IBoxCollidable {
         }
 
     }
-
+    private boolean isTouchInsideHead(float touchX, float touchY) {
+        return touchX >= x - HEAD_WIDTH / 2 && touchX <= x + HEAD_WIDTH / 2 &&
+                touchY >= y - HEAD_HEIGHT / 2 && touchY <= y + HEAD_HEIGHT / 2;
+    }
     public RectF getCollisionRect() {
         return dstRect;
     }

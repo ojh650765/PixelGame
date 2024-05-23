@@ -52,7 +52,11 @@ public class Slime extends AnimSprite implements IBoxCollidable, IRecyclable {
     private Slime(int stage, int index) {
         super(resIds[(stage -1 ) * 2], ANIM_FPS);
         this.level = stage;
-        setPosition(Metrics.width + index, Metrics.height/4.5f, RADIUS);
+        setPosition(Metrics.width -RADIUS* 3.5f + index, Metrics.height/4.f, RADIUS);
+        InitSlime(stage);
+    }
+
+    public void InitSlime(int stage) {
         if(stage == 1 ){
             HP = 80.f;
             fDistance = 4.f;
@@ -73,33 +77,16 @@ public class Slime extends AnimSprite implements IBoxCollidable, IRecyclable {
         }
         battack = false;
         dx = 0;
+        targetX = x;
+        isMoving = false;
     }
+
     public static Slime get(int stage, int index) {
         Slime enemy = (Slime) RecycleBin.get(Slime.class);
         if (enemy != null) {
             enemy.setAnimationResource(resIds[stage], ANIM_FPS);
-            enemy.setPosition(Metrics.width / 10 * (2 * index + 1), -RADIUS, RADIUS);
-            if(stage == 1 ){
-                enemy.HP = 40.f;
-                enemy.fDistance = 6.f;
-                enemy.SPEED = 6.f;
-                enemy.fPower = 10.f;
-            }
-            else if(stage == 2){
-                enemy.HP = 60.f;
-                enemy.fDistance = 5.f;
-                enemy.SPEED = 5.f;
-                enemy.fPower = 20.f;
-            }
-            else {
-                enemy.HP = 100.f;
-                enemy.fDistance = 3.f;
-                enemy.SPEED = 3.f;
-                enemy.fPower = 30.f;
-
-            }
-            enemy.battack = false;
-            enemy.level = stage;
+            enemy. setPosition(Metrics.width -RADIUS* 3.5f + index, Metrics.height/4.f, RADIUS);
+            enemy.InitSlime(stage);
             return enemy;
         }
         return new Slime(stage, index);

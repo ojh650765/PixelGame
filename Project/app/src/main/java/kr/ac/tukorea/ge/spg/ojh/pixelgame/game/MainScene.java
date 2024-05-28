@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 
 import kr.ac.tukorea.ge.spg.ojh.framework.activity.GameActivity;
+import kr.ac.tukorea.ge.spg.ojh.framework.objects.Button;
 import kr.ac.tukorea.ge.spg.ojh.pixelgame.R;
 import kr.ac.tukorea.ge.spg.ojh.framework.objects.HorizonBackground;
 import kr.ac.tukorea.ge.spg.ojh.framework.scene.Scene;
@@ -20,7 +21,7 @@ public class MainScene extends Scene {
         return stage;
     }
     public enum Layer {
-        bg,board,item, up_player,under_player, enemy, slash, obstacle,bomb, controller,ui,COUNT
+        bg,board,item, up_player,under_player, enemy, slash, obstacle,bomb,touch, controller,ui,COUNT
     }
     public MainScene() {
         Intent intent = GameActivity.activity.getIntent();
@@ -45,11 +46,20 @@ public class MainScene extends Scene {
 
         tileGenerator.ResetGenerateObjects(this.warriorHead);
         add(Layer.controller,new TurnBasedController(this,tileGenerator,warriorHead,this.warrior));
-        add(Layer.bg, new HorizonBackground(R.mipmap.bg_forest));
+        add(Layer.bg, new HorizonBackground(stage));
 
 
         add(Layer.under_player, warriorHead);
         add(Layer.up_player, warrior);
+
+        add(Layer.touch, new Button(R.mipmap.btn_reset_n, 1.5f, 8.0f, 2.0f, 0.75f, new Button.Callback() {
+            @Override
+            public boolean onTouch(Button.Action action) {
+                //Log.d(TAG, "Button: Slide " + action);
+                GameStateManager.getInstance().setTurnActive(false);
+                return true;
+            }
+        }));
     }
 
 

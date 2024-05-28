@@ -38,7 +38,7 @@ public class Warrior extends AnimSprite {
     };
     public Warrior() {
         super(resIds[0],ANIM_IDLE_FPS);
-        setPosition(0,WARRIOR_HEIGHT/2 , WARRIOR_WIDTH, WARRIOR_HEIGHT);
+        setPosition(WARRIOR_WIDTH/2,WARRIOR_HEIGHT/2.3f , WARRIOR_WIDTH, WARRIOR_HEIGHT);
     }
 
     @Override

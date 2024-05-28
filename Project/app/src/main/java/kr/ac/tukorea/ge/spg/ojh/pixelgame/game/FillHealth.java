@@ -12,7 +12,7 @@ import kr.ac.tukorea.ge.spg.ojh.pixelgame.R;
 public class FillHealth extends Sprite {
 
     protected MainScene.Layer layer;
-    private static final float HEALTH_WIDTH = 4.75f;
+    private static final float HEALTH_WIDTH = 3.35f;
     private static final float HEALTH_HEIGHT = HEALTH_WIDTH*120/1058;
     private WarriorHead warriorHead;
 

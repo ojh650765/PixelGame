@@ -24,6 +24,7 @@ public class WarriorHead extends Sprite implements IBoxCollidable {
     private static final float SPEED = 5.0f;
     private static final float SideX = 2.56f;
     private static final float SideY = 4.1f;
+    private static final String TAG = WarriorHead.class.getSimpleName();
     private boolean Warriormove = false;
     private boolean shouldDrawLine = false;
     private float targetX;
@@ -97,14 +98,16 @@ public class WarriorHead extends Sprite implements IBoxCollidable {
     }
 
     public boolean onTouch(MotionEvent event) {
-
+        Log.d(TAG, "onTouch: ");
         if (Warriormove) {
             return false;
         }
         float[] pts = Metrics.fromScreen(event.getX(), event.getY());
         float touchX = pts[0];
         float touchY = pts[1];
-
+        if (isTouchInsideButton(touchX, touchY)) {
+            return false;
+        }
         switch (event.getAction()) {
 
             case MotionEvent.ACTION_DOWN:
@@ -143,7 +146,7 @@ public class WarriorHead extends Sprite implements IBoxCollidable {
 
                 Warriormove = true;
                 shouldDrawLine = false;
-                return true;
+              break;
         }
         return false;
     }
@@ -155,6 +158,16 @@ public class WarriorHead extends Sprite implements IBoxCollidable {
             GameStateManager.getInstance().setTurnActive(true);
         }
 
+    }
+    private boolean isTouchInsideButton(float touchX, float touchY) {
+        // 버튼의 위치와 크기에 따라 버튼 영역을 정의
+        float buttonLeft = 1.5f;
+        float buttonTop = 8.0f;
+        float buttonRight = buttonLeft + 2.0f;
+        float buttonBottom = buttonTop + 0.75f;
+
+        return touchX >= buttonLeft && touchX <= buttonRight &&
+                touchY >= buttonTop && touchY <= buttonBottom;
     }
     private boolean isTouchInsideHead(float touchX, float touchY) {
         return touchX >= x - HEAD_WIDTH / 2 && touchX <= x + HEAD_WIDTH / 2 &&
@@ -198,6 +211,10 @@ public class WarriorHead extends Sprite implements IBoxCollidable {
 
     public void ResetMove() {
         Warriormove = false;
+        targetX = 0;
+        targetY = 0;
+        dx = 0;
+        dy = 0;
     }
 
     public float GetPower() {

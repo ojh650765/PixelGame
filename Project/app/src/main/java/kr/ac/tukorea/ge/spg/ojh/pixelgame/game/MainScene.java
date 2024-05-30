@@ -2,6 +2,7 @@ package kr.ac.tukorea.ge.spg.ojh.pixelgame.game;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import kr.ac.tukorea.ge.spg.ojh.framework.activity.GameActivity;
@@ -15,6 +16,7 @@ public class MainScene extends Scene {
     private final WarriorHead warriorHead;
     private final Warrior warrior;
     public static String KEY_STAGE = "stage";
+    private final TurnBasedController turnBasedController;
     private int stage = 2;
     //Score score; // package private
     public int getStage() {
@@ -45,7 +47,8 @@ public class MainScene extends Scene {
         add(Layer.controller, GameStateManager.getInstance());
 
         tileGenerator.ResetGenerateObjects(this.warriorHead);
-        add(Layer.controller,new TurnBasedController(this,tileGenerator,warriorHead,this.warrior));
+        turnBasedController = new TurnBasedController(this,tileGenerator,warriorHead,this.warrior);
+        add(Layer.controller, turnBasedController);
         add(Layer.bg, new HorizonBackground(stage));
 
 
@@ -55,9 +58,8 @@ public class MainScene extends Scene {
         add(Layer.touch, new Button(R.mipmap.btn_reset_n, 1.5f, 8.0f, 2.0f, 0.75f, new Button.Callback() {
             @Override
             public boolean onTouch(Button.Action action) {
-                //Log.d(TAG, "Button: Slide " + action);
-                GameStateManager.getInstance().setTurnActive(false);
-                return true;
+                turnBasedController.ResetWarriorAndTiles();
+                return false;
             }
         }));
     }
@@ -67,9 +69,13 @@ public class MainScene extends Scene {
     public void update(float elapsedSeconds) {
         super.update(elapsedSeconds);
     }
-
+    @Override
+    protected int getTouchLayerIndex() {
+        return MainScene.Layer.touch.ordinal();
+    }
     @Override
     public boolean onTouch(MotionEvent event) {
+        super.onTouch(event);
         return warriorHead.onTouch(event);
     }
 }

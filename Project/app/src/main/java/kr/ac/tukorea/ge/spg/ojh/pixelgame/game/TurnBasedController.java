@@ -36,14 +36,18 @@ public class TurnBasedController implements IGameObject {
                     warriorHead.GetDamage(slime.GetPower());
                 }
             }
-            RemoveAllObjects();
-            this.tileGenerator.ResetGenerateObjects(warriorHead);
-            warriorHead.ResetMove();
-            GameStateManager.getInstance().setTurnActive(false);
+            ResetWarriorAndTiles();
         }
         if(warriorHead.GetHP()<= 0){
             new GameOverScene().push();
         }
+    }
+
+    public void ResetWarriorAndTiles() {
+        RemoveAllObjects();
+        this.tileGenerator.ResetGenerateObjects(warriorHead);
+        warriorHead.ResetMove();
+        GameStateManager.getInstance().setTurnActive(false);
     }
 
     private void RemoveAllObjects(){

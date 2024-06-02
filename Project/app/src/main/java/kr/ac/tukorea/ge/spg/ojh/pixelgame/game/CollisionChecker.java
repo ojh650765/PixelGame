@@ -38,6 +38,7 @@ public class CollisionChecker implements IGameObject {
             Bomb bomb = (Bomb) bombs.get(b);
             if(CollisionHelper.collides(bomb, this.warriorHead)){
                 this.warriorHead.Stop();
+                bomb.ExplosionEffect();
                 break;
             }
 
@@ -85,7 +86,7 @@ public class CollisionChecker implements IGameObject {
         // 충돌 방향에 따른 법선 벡터 설정
         float normalX = 0;
         float normalY = 0;
-        // 가정: 충돌 처리는 가장 큰 편차를 가진 축에 따라 이루어집니다.
+
         float deltaX = (headRect.left + headRect.width() / 2) - (obstacleRect.left + obstacleRect.width() / 2);
         float deltaY = (headRect.top + headRect.height() / 2) - (obstacleRect.top + obstacleRect.height() / 2);
 

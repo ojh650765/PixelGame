@@ -30,7 +30,7 @@ public class Warrior extends AnimSprite {
     public static final float ANIM_IDLE_FPS = 5.f;
     private boolean attaked = false;
 
-    protected State state = State.idle;
+    protected State state;
 
     private float fireCoolTime = FIRE_INTERVAL;
     private static final int[] resIds = {
@@ -38,6 +38,7 @@ public class Warrior extends AnimSprite {
     };
     public Warrior() {
         super(resIds[0],ANIM_IDLE_FPS);
+        state = State.idle;
         setPosition(WARRIOR_WIDTH/2,WARRIOR_HEIGHT/2.3f , WARRIOR_WIDTH, WARRIOR_HEIGHT);
     }
 
@@ -52,13 +53,13 @@ public class Warrior extends AnimSprite {
                 attaked = true;
 
             }
-            if(frameIndex == WARRIOR_ATTACK_MOTION_END_FRAME){
-               state=State.idle;
-                changed = false;
+            if(frameIndex == WARRIOR_ATTACK_MOTION_END_FRAME) {
+                state = State.idle;
                 attaked = false;
                 break;
             }
             if(frameIndex!=WARRIOR_ATTACK_MOTION_FRAME) attaked = false;
+
             break;
             case idle:
                 ChangeAnimSprite(resIds[0],ANIM_IDLE_FPS);
@@ -75,6 +76,9 @@ public class Warrior extends AnimSprite {
             state = s;
            changed = true;
         }
+    }
+    public void SetAvailableChangeState(){
+        changed = false;
     }
     @Override
     public void draw(Canvas canvas) {

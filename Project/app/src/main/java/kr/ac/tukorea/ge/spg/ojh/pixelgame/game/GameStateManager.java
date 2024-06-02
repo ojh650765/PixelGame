@@ -11,9 +11,9 @@ import kr.ac.tukorea.ge.spg.ojh.framework.util.CollisionHelper;
 public class GameStateManager implements IGameObject {
 
     private static GameStateManager instance;
-    private boolean isTurnActive;
+    private boolean bisTurnActive;
     public GameStateManager () {
-        isTurnActive = false;
+        bisTurnActive = false;
     }
     public static GameStateManager getInstance() {
         if (instance == null) {
@@ -22,10 +22,10 @@ public class GameStateManager implements IGameObject {
         return instance;
     }
     public boolean isTurnActive() {
-        return isTurnActive;
+        return bisTurnActive;
     }
     public void setTurnActive(boolean turnActive) {
-        isTurnActive = turnActive;
+        bisTurnActive = turnActive;
     }
     @Override
     public void update(float elapsedSeconds) {

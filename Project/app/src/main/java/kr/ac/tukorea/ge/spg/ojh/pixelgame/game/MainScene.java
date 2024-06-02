@@ -16,7 +16,7 @@ public class MainScene extends Scene {
     private final WarriorHead warriorHead;
     private final Warrior warrior;
     public static String KEY_STAGE = "stage";
-    private final TurnBasedController turnBasedController;
+    private TurnBasedController turnBasedController;
     private int stage = 2;
     //Score score; // package private
     public int getStage() {
@@ -44,6 +44,7 @@ public class MainScene extends Scene {
         add(Layer.controller, new CollisionChecker(this, this.warriorHead));
 
         add(Layer.controller, tileGenerator);
+        GameStateManager.getInstance().setTurnActive(false);
         add(Layer.controller, GameStateManager.getInstance());
 
         tileGenerator.ResetGenerateObjects(this.warriorHead);

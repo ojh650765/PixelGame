@@ -16,17 +16,33 @@ public class TurnBasedController implements IGameObject {
     private final WarriorHead warriorHead;
     private final Warrior warrior;
     private TileGenerator tileGenerator;
+    private float fResetdelayTime;
+    private float fAccumulateResetTime;
+    private boolean resetTurn = false;
 
     public TurnBasedController(MainScene scene, TileGenerator tileGenerator, WarriorHead warriorHead, Warrior warrior) {
         this.scene = scene;
         this.tileGenerator = tileGenerator;
         this.warriorHead =warriorHead;
         this.warrior = warrior;
+
+        this.fResetdelayTime= 1.3f;
+        this.fAccumulateResetTime= 0;
+        this.resetTurn =false;
     }
     @Override
     public void update(float elapsedSeconds) {
         if(scene ==null) return;
-        if(GameStateManager.getInstance().isTurnActive()) {
+
+        if(resetTurn){
+            fAccumulateResetTime+=elapsedSeconds;
+            if( fAccumulateResetTime >= fResetdelayTime){
+                fAccumulateResetTime = 0;
+                resetTurn = false;
+                ResetWarriorAndTiles();
+            }
+        }
+        else if(GameStateManager.getInstance().isTurnActive()) {
             warrior.ChangeState(Warrior.State.attack);
             ArrayList<IGameObject> Slimes = scene.objectsAt(MainScene.Layer.enemy);
             for (int s = Slimes.size() - 1; s >= 0; s--) {
@@ -36,7 +52,7 @@ public class TurnBasedController implements IGameObject {
                     warriorHead.GetDamage(slime.GetPower());
                 }
             }
-            ResetWarriorAndTiles();
+            resetTurn = true;
         }
         if(warriorHead.GetHP()<= 0){
             new GameOverScene().push();
@@ -47,6 +63,8 @@ public class TurnBasedController implements IGameObject {
         RemoveAllObjects();
         this.tileGenerator.ResetGenerateObjects(warriorHead);
         warriorHead.ResetMove();
+        warrior.SetAvailableChangeState();
+        this.resetTurn = false;
         GameStateManager.getInstance().setTurnActive(false);
     }
 
@@ -73,4 +91,6 @@ public class TurnBasedController implements IGameObject {
     public void draw(Canvas canvas) {
 
     }
+    public void ExplosionEffect() {}
+
 }

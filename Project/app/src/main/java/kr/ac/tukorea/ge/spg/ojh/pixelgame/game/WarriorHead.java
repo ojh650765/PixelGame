@@ -1,11 +1,9 @@
 package kr.ac.tukorea.ge.spg.ojh.pixelgame.game;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -13,8 +11,6 @@ import android.view.MotionEvent;
 import kr.ac.tukorea.ge.spg.ojh.framework.interfaces.IBoxCollidable;
 import kr.ac.tukorea.ge.spg.ojh.pixelgame.R;
 import kr.ac.tukorea.ge.spg.ojh.framework.objects.Sprite;
-import kr.ac.tukorea.ge.spg.ojh.framework.res.BitmapPool;
-import kr.ac.tukorea.ge.spg.ojh.framework.scene.Scene;
 import kr.ac.tukorea.ge.spg.ojh.framework.view.Metrics;
 
 public class WarriorHead extends Sprite implements IBoxCollidable {
@@ -25,6 +21,7 @@ public class WarriorHead extends Sprite implements IBoxCollidable {
     private static final float SideX = 2.56f;
     private static final float SideY = 4.1f;
     private static final String TAG = WarriorHead.class.getSimpleName();
+
     private boolean Warriormove = false;
     private boolean shouldDrawLine = false;
     private float targetX;
@@ -39,7 +36,13 @@ public class WarriorHead extends Sprite implements IBoxCollidable {
     private float power;
     private float fullHP = 100;
     private float currentHP=fullHP;
-
+    private float fatkRatio;
+    private float fdefRatio;
+    private float def;
+    private int earnPower;
+    private int earnDef;
+    private float defaultPower;
+    private float defaultDef;
 
     private Paint getDashedLinePaint() {
         if (dashedLinePaint == null) {
@@ -53,8 +56,14 @@ public class WarriorHead extends Sprite implements IBoxCollidable {
         return dashedLinePaint;
     }
 
-    public WarriorHead() {
+    public WarriorHead(float pw, float def) {
         super(R.mipmap.rightface);
+        fatkRatio = 1;
+        fdefRatio = 1;
+        earnPower= 0;
+        earnDef = 0;
+        defaultPower = 0;
+        defaultDef = 0;
         setPosition(leftBound, lowerBound, HEAD_WIDTH, HEAD_HEIGHT);
     }
     
@@ -220,12 +229,42 @@ public class WarriorHead extends Sprite implements IBoxCollidable {
     public float GetPower() {
         return power;
     }
-    public float GetHP() {return currentHP/fullHP; }
-    public void GetDamage(float damage) { currentHP -= damage; }
-    public void UpdatePower(float power) {
-        this.power = power;
+    public  int GetEarnPower(){
+        if(this.power> 99)
+            this.power = 99;
+        return (int)this.power;
     }
-    public void PowerUp(float power) {
-        this.power += power;
+    public  int GetEarnDef(){
+        if(this.def> 99)
+            this.def = 99;
+        return (int)this.def;
+    }
+    public float GetHP() {return currentHP/fullHP; }
+    public void GetDamage(float damage) {
+        float effectiveDamage = damage - this.def;
+        if (effectiveDamage > 0) {
+            currentHP -= effectiveDamage;
+            if (currentHP < 0) {
+                currentHP = 0;
+            }
+        }
+    }
+    public void UpdatePower(float power) {
+        this.power =  defaultPower + power * fatkRatio;
+        earnPower = 0;
+    }
+    public void ResetDef(){
+        earnDef = 0;
+        defaultDef = 0;
+        this.def = defaultDef;
+    }
+    public void DefUp(int df) {
+        earnDef += df;
+        this.def = defaultDef+ this.def + (earnDef * fdefRatio);
+    }
+    public void PowerUp(int power) {
+        earnPower += power;
+        this.power = defaultPower + this.power +(earnPower * fatkRatio);
+
     }
 }

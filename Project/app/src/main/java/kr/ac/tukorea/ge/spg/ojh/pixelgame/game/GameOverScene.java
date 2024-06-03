@@ -3,6 +3,7 @@ package kr.ac.tukorea.ge.spg.ojh.pixelgame.game;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 
+import kr.ac.tukorea.ge.spg.ojh.framework.res.Sound;
 import kr.ac.tukorea.ge.spg.ojh.pixelgame.R;
 import kr.ac.tukorea.ge.spg.ojh.framework.activity.GameActivity;
 import kr.ac.tukorea.ge.spg.ojh.framework.objects.Button;
@@ -46,6 +47,16 @@ public class GameOverScene extends Scene {
 
     @Override
     public boolean isTransparent() {
-        return true;
+        return false;
+    }
+
+    @Override
+    protected void onStart() {
+        Sound.stopMusic();
+       Sound.playEffect(R.raw.stage_over);
+    }
+    @Override
+    protected void onEnd() {
+        Sound.stopMusic();
     }
 }

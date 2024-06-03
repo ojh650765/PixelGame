@@ -1,9 +1,13 @@
 package kr.ac.tukorea.ge.spg.ojh.pixelgame.game;
 
 
+import android.graphics.Canvas;
 import android.graphics.RectF;
 import android.util.Log;
 
+import java.util.Random;
+
+import kr.ac.tukorea.ge.spg.ojh.framework.res.Sound;
 import kr.ac.tukorea.ge.spg.ojh.pixelgame.R;
 import kr.ac.tukorea.ge.spg.ojh.framework.interfaces.IBoxCollidable;
 import kr.ac.tukorea.ge.spg.ojh.framework.interfaces.IRecyclable;
@@ -13,13 +17,17 @@ import kr.ac.tukorea.ge.spg.ojh.framework.scene.Scene;
 import kr.ac.tukorea.ge.spg.ojh.framework.view.Metrics;
 
 public class Slime extends AnimSprite implements IBoxCollidable, IRecyclable {
+    private int type;
     private int SLIME_HITTED_MOTION_END_FRAME = 2;
+    private int SLIME_DEAD_MOTION_END_FRAME = 3;
     private float fPower;
+    private boolean deadAnimPlayDone;
 
     public float getMoveDistance() {
         return fDistance;
     }
     public boolean GetAttackStats() {
+        if(dead || deadAnimPlayDone) return false;
         return battack;
     }
 
@@ -28,18 +36,21 @@ public class Slime extends AnimSprite implements IBoxCollidable, IRecyclable {
     }
 
     public enum State {
-        idle, hitted
+        idle, hitted, dead,none
     }
     private float SPEED = 1.f;
     private float fDistance = 1.f;
     private boolean battack = false;
-    private static final float RADIUS = 0.6f;
-    private static final int[] resIds = {
-            R.mipmap.blue_slime_sheet,
-            R.mipmap.blue_slime_hitted_sheet,
-            R.mipmap.red_slime_sheet,
-            R.mipmap.red_slime_hitted_sheet,
+    private float RADIUS = 0.6f;
+
+    private static final int[][] resIds = {
+
+                    {R.mipmap.blue_slime_sheet, R.mipmap.blue_slime_hitted_sheet, R.mipmap.blue_slime_dead_sheet},
+                    {R.mipmap.red_slime_sheet, R.mipmap.red_slime_hitted_sheet, R.mipmap.red_slime_dead_sheet},
+                    {R.mipmap.boss_slime_sheet, R.mipmap.boss_slime_hitted_sheet, R.mipmap.boss_slime_dead_sheet}
+
     };
+
     public static final int MAX_LEVEL = resIds.length - 1;
     public static final float ANIM_FPS = 5.0f;
     protected RectF collisionRect = new RectF();
@@ -49,30 +60,33 @@ public class Slime extends AnimSprite implements IBoxCollidable, IRecyclable {
     private int level;
     public boolean dead = false;
     private  State state = State.idle;
-    private Slime(int stage, int index) {
-        super(resIds[(stage -1 ) * 2], ANIM_FPS);
+    private Slime(int stage, int type, int index) {
+        super(resIds[type][0], ANIM_FPS);
         this.level = stage;
-        setPosition(Metrics.width -RADIUS* 3.5f + index, Metrics.height/4.f, RADIUS);
-        InitSlime(stage);
+        this.type = type;
+        if(type == 2) RADIUS =0.9f;
+        setPosition(Metrics.width -RADIUS* 3.5f + index, Metrics.height/(3 * RADIUS + 2.2f), RADIUS);
+        dead =false;
+        InitSlime();
     }
 
-    public void InitSlime(int stage) {
-        if(stage == 1 ){
-            HP = 80.f;
-            fDistance = 4.f;
-            SPEED = 4.f;
-            fPower = 10.f;
+    public void InitSlime( ) {
+        if(type == 0 ){
+            HP = 40.f;
+            fDistance = 3.f;
+            SPEED = 3.f;
+            fPower = 30.f;
         }
-        else if(stage == 2){
-            HP = 60.f;
-            fDistance = 5.f;
-            SPEED = 5.f;
-            fPower = 20.f;
+        else if(type == 1){
+            HP = 70.f;
+            fDistance = 2.f;
+            SPEED = 2.f;
+            fPower = 40.f;
         }
-        else {
-            HP = 100.f;
-            SPEED = 1.f;
-            fDistance = 1.f;
+        else if(type == 2){
+            HP = 150.f;
+            SPEED = 1.5f;
+            fDistance = 1.5f;
             fPower = 30.f;
         }
         battack = false;
@@ -81,33 +95,36 @@ public class Slime extends AnimSprite implements IBoxCollidable, IRecyclable {
         isMoving = false;
     }
 
-    public static Slime get(int stage, int index) {
-        Slime enemy = (Slime) RecycleBin.get(Slime.class);
-        if (enemy != null) {
-            enemy.setAnimationResource(resIds[stage], ANIM_FPS);
-            enemy. setPosition(Metrics.width -RADIUS* 3.5f + index, Metrics.height/4.f, RADIUS);
-            enemy.InitSlime(stage);
-            return enemy;
-        }
-        return new Slime(stage, index);
+    public static Slime get(int stage, int type, int index) {
+        return new Slime(stage, type, index);
     }
     @Override
     public void update(float elapsedSeconds) {
+        if(deadAnimPlayDone) return;
         switch (state){
             case idle:
-                ChangeAnimSprite(resIds[(level -1 ) * 2],ANIM_FPS);
+                ChangeAnimSprite(resIds[type][0],ANIM_FPS);
                 break;
             case hitted:
-                ChangeAnimSprite(resIds[(level -1 ) * 2 + 1],ANIM_FPS);
+                ChangeAnimSprite(resIds[type][1],ANIM_FPS);
                 if(frameIndex == SLIME_HITTED_MOTION_END_FRAME){
+                    Sound.playEffect(R.raw.hit_damage2);
                     state= State.idle;
+                }
+                break;
+            case dead:
+                ChangeAnimSprite(resIds[type][2],ANIM_FPS);
+                if(frameIndex == SLIME_DEAD_MOTION_END_FRAME){
+                    Sound.playEffect(R.raw.explosion);
+                    deadAnimPlayDone = true;
+                    state= State.none;
                 }
                 break;
         }
         if(x<= 2.5f){
             battack = true;
         }
-        else if (isMoving && x > 2.5f) {
+        else if (!dead && isMoving && x > 2.5f) {
             if (Math.abs(x-targetX) > 0.01f)  {
               dx = -SPEED;
             } else {
@@ -119,8 +136,18 @@ public class Slime extends AnimSprite implements IBoxCollidable, IRecyclable {
         }else{
             dx = 0;
         }
+        if(HP<=0) {
+            dead = true;
+        }
         collisionRect.set(dstRect);
         collisionRect.inset(0.11f, 0.11f);
+
+    }
+    @Override
+    public void draw(Canvas canvas){
+        if(deadAnimPlayDone) return;
+        super.draw(canvas);
+
     }
     @Override
     public RectF getCollisionRect() {

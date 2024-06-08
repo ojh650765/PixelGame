@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 
 import kr.ac.tukorea.ge.spg.ojh.framework.objects.AnimSprite;
+import kr.ac.tukorea.ge.spg.ojh.framework.res.Sound;
 import kr.ac.tukorea.ge.spg.ojh.pixelgame.R;
 import kr.ac.tukorea.ge.spg.ojh.framework.objects.Sprite;
 import kr.ac.tukorea.ge.spg.ojh.framework.res.BitmapPool;
@@ -15,7 +16,6 @@ import kr.ac.tukorea.ge.spg.ojh.framework.view.Metrics;
 
 public class Warrior extends AnimSprite {
     private boolean changed;
-
     public enum State {
         idle, attack, hitted
     }
@@ -23,18 +23,19 @@ public class Warrior extends AnimSprite {
     private static final float WARRIOR_HEIGHT = WARRIOR_WIDTH;
     private static final float WARRIOR_ATTACK_MOTION_FRAME = 2;
     private static final float WARRIOR_ATTACK_MOTION_END_FRAME = 6;
-
+    private static final float  WARRIOR_HITTED_MOTION_FRAME = 4;
     private static final float FIRE_INTERVAL = 0.93f;
 
     public static final float ANIM_FPS = 8.f;
     public static final float ANIM_IDLE_FPS = 5.f;
+    public static final float ANIM_HITTED_FPS = 4.f;
     private boolean attaked = false;
 
     protected State state;
 
     private float fireCoolTime = FIRE_INTERVAL;
     private static final int[] resIds = {
-            R.mipmap.warrior_idle_animsheet,R.mipmap.warrior_animsheet
+            R.mipmap.warrior_idle_animsheet,R.mipmap.warrior_animsheet,R.mipmap.gethitted
     };
     public Warrior() {
         super(resIds[0],ANIM_IDLE_FPS);
@@ -49,6 +50,7 @@ public class Warrior extends AnimSprite {
             case attack:
                 ChangeAnimSprite(resIds[1],ANIM_FPS);
             if (frameIndex==WARRIOR_ATTACK_MOTION_FRAME && !attaked) {
+                Sound.playEffect(R.raw.slash);
                 Slash();
                 attaked = true;
 
@@ -64,6 +66,13 @@ public class Warrior extends AnimSprite {
             case idle:
                 ChangeAnimSprite(resIds[0],ANIM_IDLE_FPS);
                 break;
+            case hitted:
+                ChangeAnimSprite(resIds[2],ANIM_HITTED_FPS);
+                if(frameIndex >=WARRIOR_HITTED_MOTION_FRAME){
+                    Sound.playEffect(R.raw.puch);
+                    state = State.idle;
+                }
+                break;
         }
     }
 
@@ -76,6 +85,9 @@ public class Warrior extends AnimSprite {
             state = s;
            changed = true;
         }
+    }
+    public void ChangeHittedState(){
+        state= State.hitted;
     }
     public void SetAvailableChangeState(){
         changed = false;

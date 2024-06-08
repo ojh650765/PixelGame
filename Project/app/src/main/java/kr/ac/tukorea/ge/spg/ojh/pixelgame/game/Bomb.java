@@ -6,6 +6,7 @@ import android.graphics.RectF;
 import kr.ac.tukorea.ge.spg.ojh.framework.interfaces.IBoxCollidable;
 import kr.ac.tukorea.ge.spg.ojh.framework.objects.AnimSprite;
 import kr.ac.tukorea.ge.spg.ojh.framework.objects.Sprite;
+import kr.ac.tukorea.ge.spg.ojh.framework.res.Sound;
 import kr.ac.tukorea.ge.spg.ojh.pixelgame.R;
 
 public class Bomb  extends AnimSprite implements IBoxCollidable {
@@ -44,6 +45,7 @@ public class Bomb  extends AnimSprite implements IBoxCollidable {
     }
 
     public void ExplosionEffect() {
+        if(!isExplosion) Sound.playEffect(R.raw.explosion_bomb);
         isExplosion = true;
         ChangeAnimSprite(resIds[1], ANIM_FPS);
     }

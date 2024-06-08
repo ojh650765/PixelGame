@@ -2,11 +2,11 @@ package kr.ac.tukorea.ge.spg.ojh.pixelgame.game;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import kr.ac.tukorea.ge.spg.ojh.framework.activity.GameActivity;
 import kr.ac.tukorea.ge.spg.ojh.framework.objects.Button;
+import kr.ac.tukorea.ge.spg.ojh.framework.res.Sound;
 import kr.ac.tukorea.ge.spg.ojh.pixelgame.R;
 import kr.ac.tukorea.ge.spg.ojh.framework.objects.HorizonBackground;
 import kr.ac.tukorea.ge.spg.ojh.framework.scene.Scene;
@@ -16,9 +16,11 @@ public class MainScene extends Scene {
     private final WarriorHead warriorHead;
     private final Warrior warrior;
     public static String KEY_STAGE = "stage";
+    private AtkCount atkScore;
+    private DefCount defScore;
     private TurnBasedController turnBasedController;
     private int stage = 2;
-    //Score score; // package private
+
     public int getStage() {
         return stage;
     }
@@ -32,8 +34,12 @@ public class MainScene extends Scene {
             stage = extras.getInt(KEY_STAGE);
         }
         initLayers(Layer.COUNT);
+        GameStateManager.getInstance().setTurnActive(false);
 
-        this.warriorHead = new WarriorHead();
+        float pw = GameStateManager.getInstance().GetPowerInfo();
+        float def = GameStateManager.getInstance().GetDefInfo();
+        this.warriorHead = new WarriorHead(pw, def);
+
         this.warrior = new Warrior();
         add(Layer.ui,new HealthBar(Layer.ui));
         add(Layer.ui,new FillHealth(Layer.ui, warriorHead));
@@ -44,7 +50,7 @@ public class MainScene extends Scene {
         add(Layer.controller, new CollisionChecker(this, this.warriorHead));
 
         add(Layer.controller, tileGenerator);
-        GameStateManager.getInstance().setTurnActive(false);
+
         add(Layer.controller, GameStateManager.getInstance());
 
         tileGenerator.ResetGenerateObjects(this.warriorHead);
@@ -56,6 +62,14 @@ public class MainScene extends Scene {
         add(Layer.under_player, warriorHead);
         add(Layer.up_player, warrior);
 
+        this.atkScore = new AtkCount();
+        this.defScore = new DefCount();
+        atkScore.setScore((int)pw);
+        defScore.setScore((int)def);
+        add(Layer.ui, atkScore);
+        add(Layer.ui, defScore);
+        add(Layer.ui, new AtkUI());
+        add(Layer.ui, new DefUI());
         add(Layer.touch, new Button(R.mipmap.btn_reset_n, 1.5f, 8.0f, 2.0f, 0.75f, new Button.Callback() {
             @Override
             public boolean onTouch(Button.Action action) {
@@ -65,7 +79,12 @@ public class MainScene extends Scene {
         }));
     }
 
-
+    public void SetAtkScore(int amount) {
+        atkScore.setScore(amount);
+    }
+    public void SetDefScore(int amount) {
+        defScore.setScore(amount);
+    }
     @Override
     public void update(float elapsedSeconds) {
         super.update(elapsedSeconds);
@@ -78,5 +97,23 @@ public class MainScene extends Scene {
     public boolean onTouch(MotionEvent event) {
         super.onTouch(event);
         return warriorHead.onTouch(event);
+    }
+    private int  resid[] = {R.raw.explosion,R.raw.stage_1_voldown,R.raw.stage_2,R.raw.stage_3,
+            R.raw.slash,R.raw.puch,
+            R.raw.hit_damage2,R.raw.stage_over,R.raw.game_clear,
+            R.raw.item, R.raw.explosion_bomb};
+    @Override
+    protected void onStart() {
+        Sound.initializeSoundPool( resid );
+        if(stage == 1)
+            Sound.playMusic(R.raw.stage_1_voldown);
+        else if (stage == 2)
+            Sound.playMusic(R.raw.stage_2);
+        else if(stage == 3)
+            Sound.playMusic(R.raw.stage_3);
+    }
+    @Override
+    protected void onEnd() {
+        Sound.stopMusic();
     }
 }

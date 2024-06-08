@@ -2,12 +2,13 @@ package kr.ac.tukorea.ge.spg.ojh.pixelgame.game;
 
 import android.graphics.Canvas;
 import android.graphics.RectF;
-import android.util.Log;
 
 import java.util.ArrayList;
 
 import kr.ac.tukorea.ge.spg.ojh.framework.interfaces.IGameObject;
+import kr.ac.tukorea.ge.spg.ojh.framework.res.Sound;
 import kr.ac.tukorea.ge.spg.ojh.framework.util.CollisionHelper;
+import kr.ac.tukorea.ge.spg.ojh.pixelgame.R;
 
 public class CollisionChecker implements IGameObject {
     private static final String TAG = CollisionChecker.class.getSimpleName();
@@ -51,9 +52,13 @@ public class CollisionChecker implements IGameObject {
             }
             Item item = (Item) gobj;
             if (CollisionHelper.collides(warriorHead, item)) {
+                Sound.playEffect(R.raw.item);
                 if(item instanceof SwordItem)
-                    warriorHead.PowerUp(5.f);
-
+                    warriorHead.PowerUp(5);
+                else
+                    warriorHead.DefUp(2);
+                scene.SetAtkScore(warriorHead.GetEarnPower());
+                scene.SetDefScore(warriorHead.GetEarnDef());
                 scene.remove(MainScene.Layer.item, gobj);
             }
         }
@@ -61,19 +66,26 @@ public class CollisionChecker implements IGameObject {
         ArrayList<IGameObject> enemies = scene.objectsAt(MainScene.Layer.enemy);
         for (int e = enemies.size() - 1; e >= 0; e--) {
             Slime enemy = (Slime)enemies.get(e);
+
+            if(enemy.dead) {
+                continue;
+            }
             ArrayList<IGameObject> swordStrikes = scene.objectsAt(MainScene.Layer.slash);
             for (int b = swordStrikes.size() - 1; b >= 0; b--) {
                 SwordStrike swordStrike = (SwordStrike)swordStrikes.get(b);
+
                 if (CollisionHelper.collides(enemy,swordStrike)) {
                     scene.remove(MainScene.Layer.slash, swordStrike);
+
                     boolean dead = enemy.ApplyDamage(warriorHead.GetPower());
                     if (dead) {
-                        scene.remove(MainScene.Layer.enemy, enemy);
+                        enemy.ChangeState(Slime.State.dead);
+
                     }else{
                         enemy.ChangeState(Slime.State.hitted);
                     }
-                    warriorHead.UpdatePower(1);
-
+                    warriorHead.UpdatePower(GameStateManager.getInstance().GetPowerInfo());
+                    scene.SetAtkScore(warriorHead.GetEarnPower());
                     break;
                 }
             }

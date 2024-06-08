@@ -11,8 +11,14 @@ import kr.ac.tukorea.ge.spg.ojh.framework.util.CollisionHelper;
 public class GameStateManager implements IGameObject {
 
     private static GameStateManager instance;
+
+    private  static float PlayerPower;
+    private  static float PlayerDef;
+
     private boolean bisTurnActive;
     public GameStateManager () {
+        PlayerPower = 1;
+        PlayerDef = 0;
         bisTurnActive = false;
     }
     public static GameStateManager getInstance() {
@@ -20,6 +26,18 @@ public class GameStateManager implements IGameObject {
             instance = new GameStateManager();
         }
         return instance;
+    }
+    public void UpdatePowerInfo(float p) {
+        PlayerPower = p;
+    }
+    public void UpdateDefInfo(float d) {
+        PlayerDef = d;
+    }
+    public float GetPowerInfo(){
+        return  PlayerPower;
+    }
+    public  float GetDefInfo(){
+        return PlayerDef;
     }
     public boolean isTurnActive() {
         return bisTurnActive;

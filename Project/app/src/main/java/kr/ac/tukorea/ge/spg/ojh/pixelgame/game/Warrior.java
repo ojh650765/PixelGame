@@ -45,7 +45,7 @@ public class Warrior extends AnimSprite {
 
     @Override
     public void update(float elapsedSeconds) {
-
+        if(GameStateManager.getInstance().GetisPause())return;
         switch (state) {
             case attack:
                 ChangeAnimSprite(resIds[1],ANIM_FPS);
@@ -77,6 +77,7 @@ public class Warrior extends AnimSprite {
     }
 
     private void Slash() {
+
         Scene.top().add(MainScene.Layer.slash, SwordStrike.get(x, y ));
     }
     public  void ChangeState(State s){

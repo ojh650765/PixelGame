@@ -35,7 +35,7 @@ Pixel Game
 
 
 ### 직접 개발
-+ 에셋
++ Sprite 에셋
 + Turn Based Controller (턴 관리 컨트롤러) 
 + Player 날리기 (드래그로 targetX, targetY 정하고 dx, dy를 유클리드 거리 공식으로 구함.)
 + Player와 장애물(바위) 충돌시 반사각으로 날리기

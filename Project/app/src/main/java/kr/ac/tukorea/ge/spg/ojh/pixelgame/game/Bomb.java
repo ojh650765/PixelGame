@@ -10,7 +10,7 @@ import kr.ac.tukorea.ge.spg.ojh.framework.res.Sound;
 import kr.ac.tukorea.ge.spg.ojh.pixelgame.R;
 
 public class Bomb  extends AnimSprite implements IBoxCollidable {
-    private static final float BOMB_WIDTH = 0.5f;
+    private static final float BOMB_WIDTH = 0.6f;
     private static final float BOMB_HEIGHT = BOMB_WIDTH;
     private boolean isExplosion;
 

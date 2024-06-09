@@ -48,8 +48,8 @@ public class TurnBasedController implements IGameObject {
             if(fAccumulateResetTime >= fResetdelayTime){
                 fAccumulateResetTime = 0;
                 resetTurn = false;
-                warriorHead.ResetDef();
-                scene.SetDefScore(0);
+                warriorHead.ResetEarnDef();
+                scene.SetDefScore(warriorHead.GetEarnDef());
                 ResetWarriorAndTiles();
                 this.tileGenerator.ResetGenerateObjects(warriorHead);
                 GameStateManager.getInstance().setTurnActive(false);
@@ -64,11 +64,10 @@ public class TurnBasedController implements IGameObject {
                 for (int s = Slimes.size() - 1; s >= 0; s--) {
                     Slime slime = (Slime) Slimes.get(s);
                     slime.startLeftMove(slime.getMoveDistance());
-
                     if (slime.GetAttackStats()) {
                         warriorHead.GetDamage(slime.GetPower());
                         warrior.ChangeHittedState();
-                        warriorHead.ResetDef();
+                        warriorHead.ResetAllDef();
 
                     }
                 }
@@ -104,10 +103,10 @@ public class TurnBasedController implements IGameObject {
                 gameStateManager.UpdatePowerInfo(pw);
                 gameStateManager.UpdateDefInfo(def);
 
-                float totalAtk = pw +10;
-                float totalDef = def +10;
-                if(totalAtk>=100) totalAtk =99;
-                if(totalDef>=100) totalDef =99;
+                float totalAtk = pw + 2;
+                float totalDef = def +2;
+                if(totalAtk>= 99) totalAtk =99;
+                if(totalDef>=99) totalDef =99;
 
                 gameStateManager.UpdatePowerInfo(totalAtk);
                 gameStateManager.UpdateDefInfo(totalDef);

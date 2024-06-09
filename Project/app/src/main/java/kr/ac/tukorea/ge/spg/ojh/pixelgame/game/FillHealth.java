@@ -29,8 +29,6 @@ public class FillHealth extends Sprite {
         this.layer = layer;
         this.warriorHead = warriorHead;
         setPosition(Metrics.width/6.f, Metrics.height/2.5f ,HEALTH_WIDTH, HEALTH_HEIGHT);
-        DecreaseWidth(0.5f);
-
     }
     @NonNull
     @Override

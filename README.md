@@ -33,6 +33,11 @@ stage 3
 ![KakaoTalk_20240610_013115634](https://github.com/ojh6507/SPGTermProject/assets/45549589/4034b3dd-40d0-44c4-9f52-5935cb5b2fa5)
 
 ### 사용된 기술
+TileGenerator 
+  Set 컨테이너를 사용하여 중복없이 x,y 랜덤으로 생성  
+  x,y를 String으로 key생성
+  생성된 key가 Set에 있는지 확인.
+  위 작업을 루프.
 
 ### 수업 내용에서 차용한 것
 + Scene 전환

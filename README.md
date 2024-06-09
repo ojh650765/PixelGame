@@ -33,12 +33,15 @@ stage 3
 ![KakaoTalk_20240610_013115634](https://github.com/ojh6507/SPGTermProject/assets/45549589/4034b3dd-40d0-44c4-9f52-5935cb5b2fa5)
 
 ### 사용된 기술
-TileGenerator 
++ TileGenerator
   Set 컨테이너를 사용하여 중복없이 x,y 랜덤으로 생성  
   x,y를 String으로 key생성
   생성된 key가 Set에 있는지 확인.
   위 작업을 루프.
-
++ WarriorHead
+  + 유클리드 거리 공식 사용하여 targetX, targetY로 플레이어 직선 이동.
+  + 플레이어 시작 위치부터 targetX와 targetY 까지 직선 그리기
+ 
 ### 수업 내용에서 차용한 것
 + Scene 전환
 + Scene class
@@ -49,7 +52,7 @@ TileGenerator
 + Score class
 + Metrics class
 + GameView
-
++ Lazy Initialize로 LinePaint 생성 (stroke)
 
 ### 직접 개발
 + Sprite 에셋
@@ -58,5 +61,6 @@ TileGenerator
 + Player와 장애물(바위) 충돌시 반사각으로 날리기
 + 랜덤으로  보드판 위에 아이템 및 장애물 배치 (플레이어와 겹치지 않게)
 + Sound Pool 개선 (Sound 클래스가 사용될 사운드를 미리 Pool에 저장할 수 있도록 MainScene 생성자에서 함수 호출) -> 사운드 재생시 딜레이 되는 문제 해결
-+ sprite hp bar 감소 구현 
++ sprite hp bar 감소 구현
++ Slime 이동 (플레이어 턴이 끝나면 자기 위치보다 앞인 x값을 targetX로 설정하여 이동)
 

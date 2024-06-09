@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 
 import kr.ac.tukorea.ge.spg.ojh.framework.interfaces.IBoxCollidable;
+import kr.ac.tukorea.ge.spg.ojh.framework.scene.Scene;
 import kr.ac.tukorea.ge.spg.ojh.pixelgame.R;
 import kr.ac.tukorea.ge.spg.ojh.framework.objects.Sprite;
 import kr.ac.tukorea.ge.spg.ojh.framework.view.Metrics;
@@ -36,8 +37,7 @@ public class WarriorHead extends Sprite implements IBoxCollidable {
     private float power;
     private float fullHP = 100;
     private float currentHP=fullHP;
-    private float fatkRatio;
-    private float fdefRatio;
+
     private float def;
     private int earnPower;
     private int earnDef;
@@ -56,23 +56,26 @@ public class WarriorHead extends Sprite implements IBoxCollidable {
         return dashedLinePaint;
     }
 
-    public WarriorHead(float pw, float def) {
+    public WarriorHead(float pw, float def, float hp) {
         super(R.mipmap.rightface);
-        fatkRatio = 1;
-        fdefRatio = 1;
         earnPower= 0;
         earnDef = 0;
-        defaultPower = 0;
-        defaultDef = 0;
+        defaultPower = pw;
+        defaultDef = def;
+        power = defaultPower;
+        this.def = defaultDef;
+        this.fullHP = 100;
+        this.currentHP= hp;
+
         setPosition(leftBound, lowerBound, HEAD_WIDTH, HEAD_HEIGHT);
     }
     
     @Override
     public void update(float elapsedSeconds) {
+        if(GameStateManager.getInstance().GetisPause()) return;
         // x 위치 업데이트
         x += dx * elapsedSeconds;
         y += dy * elapsedSeconds;
-
 
         // 경계 충돌 검사 및 반응
         if (x < leftBound) {
@@ -105,12 +108,13 @@ public class WarriorHead extends Sprite implements IBoxCollidable {
         super.draw(canvas);
 
     }
-
+    private boolean isDragStarted = false;
     public boolean onTouch(MotionEvent event) {
-        Log.d(TAG, "onTouch: ");
+        //Log.d(TAG, "onTouch: ");
         if (Warriormove) {
             return false;
         }
+
         float[] pts = Metrics.fromScreen(event.getX(), event.getY());
         float touchX = pts[0];
         float touchY = pts[1];
@@ -118,23 +122,23 @@ public class WarriorHead extends Sprite implements IBoxCollidable {
             return false;
         }
         switch (event.getAction()) {
-
             case MotionEvent.ACTION_DOWN:
                 if (isTouchInsideHead(touchX, touchY)) {
                     targetX = touchX;
                     targetY = touchY;
 
                     targetRect.set(
-                            targetX - TARGET_RADIUS, targetY - TARGET_RADIUS,
-                            targetX + TARGET_RADIUS, targetY + TARGET_RADIUS
+                            touchX - TARGET_RADIUS, touchX - TARGET_RADIUS,
+                            touchX + TARGET_RADIUS, touchX + TARGET_RADIUS
                     );
 
                     shouldDrawLine = true;
+                    isDragStarted = true;
                     return true;
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
-                if (shouldDrawLine) {
+                if (shouldDrawLine && isDragStarted) {
                     targetX = touchX;
                     targetY = touchY;
 
@@ -146,14 +150,18 @@ public class WarriorHead extends Sprite implements IBoxCollidable {
                 }
                 break;
             case MotionEvent.ACTION_UP:
+                if(!isDragStarted) return  false;
+                isDragStarted = false;
                 float deltaX = targetX - x;  // X축 차이 계산
                 float deltaY = targetY - y;  // Y축 차이 계산
                 float distance = (float) Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+                Log.d(TAG, "onTouch: distance " + distance);
 
-                dx = SPEED * (deltaX / distance);
-                dy = SPEED * (deltaY / distance);
-
-                Warriormove = true;
+                if (distance > 0) {
+                    dx = SPEED * (deltaX / distance);
+                    dy = SPEED * (deltaY / distance);
+                    Warriormove = true;
+                }
                 shouldDrawLine = false;
               break;
         }
@@ -186,13 +194,6 @@ public class WarriorHead extends Sprite implements IBoxCollidable {
         return dstRect;
     }
 
-    public void UpdateDx() {
-        dx *= -1;
-    }
-
-    public void UpdateDy() {
-        dy *= -1;
-    }
 
     public void UpdateDxValue(float newDx) {
         dx = newDx;
@@ -226,18 +227,16 @@ public class WarriorHead extends Sprite implements IBoxCollidable {
         dy = 0;
     }
 
-    public float GetPower() {
-        return power;
-    }
     public  int GetEarnPower(){
-        if(this.power> 99)
+        if(this.power / 5 > 99) {
             this.power = 99;
-        return (int)this.power;
+        }
+        return (int)this.power * 5;
     }
     public  int GetEarnDef(){
-        if(this.def> 99)
+        if(this.def / 5> 99)
             this.def = 99;
-        return (int)this.def;
+        return (int)this.def * 5;
     }
     public float GetHP() {return currentHP/fullHP; }
     public void GetDamage(float damage) {
@@ -249,22 +248,31 @@ public class WarriorHead extends Sprite implements IBoxCollidable {
             }
         }
     }
-    public void UpdatePower(float power) {
-        this.power =  defaultPower + power * fatkRatio;
+    public void ResetPower() {
+        this.power =  defaultPower;
         earnPower = 0;
     }
-    public void ResetDef(){
+    public void ResetEarnDef(){
+        earnDef = 0;
+        this.def = defaultDef;
+    }
+    public void ResetAllDef(){
         earnDef = 0;
         defaultDef = 0;
         this.def = defaultDef;
     }
     public void DefUp(int df) {
         earnDef += df;
-        this.def = defaultDef+ this.def + (earnDef * fdefRatio);
+        this.def = defaultDef+ (earnDef);
     }
     public void PowerUp(int power) {
         earnPower += power;
-        this.power = defaultPower + this.power +(earnPower * fatkRatio);
+        this.power = defaultPower  +(earnPower);
 
     }
+
+    public void onResume() {
+        shouldDrawLine = false;
+    }
+
 }

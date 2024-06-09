@@ -3,21 +3,18 @@ package kr.ac.tukorea.ge.spg.ojh.pixelgame.game;
 import android.graphics.Canvas;
 import android.util.Log;
 
-import java.util.Random;
-
 import kr.ac.tukorea.ge.spg.ojh.framework.interfaces.IGameObject;
 import kr.ac.tukorea.ge.spg.ojh.pixelgame.game.MainScene;
 
 public class EnemyGenerator implements IGameObject {
     private static final String TAG = EnemyGenerator.class.getSimpleName();
     private  MainScene scene;
-    private static final Random random = new Random();
     private int stage;
-    private static final int[] slimeCountPerStage = {6, 7, 10};
+    private static final int[] slimeCountPerStage = {3, 4, 10};
     private static final int[][] slimeTypePerStage = {
-            {0,1,0,1,0,0},
-            {0,0,1,1,0,1,1},
-            {2,0,2,1,1,0,1,2,0,2}
+            {0,1,0},
+            {2,1,1,2,1},
+            {3,2,3,1,1,0,2,3,2,3}
     };
 
     public EnemyGenerator(MainScene scene){

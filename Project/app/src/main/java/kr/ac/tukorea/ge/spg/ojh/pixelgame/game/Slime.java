@@ -41,13 +41,14 @@ public class Slime extends AnimSprite implements IBoxCollidable, IRecyclable {
     private float SPEED = 1.f;
     private float fDistance = 1.f;
     private boolean battack = false;
-    private float RADIUS = 0.6f;
+    private float RADIUS = 0.7f;
 
     private static final int[][] resIds = {
 
-                    {R.mipmap.blue_slime_sheet, R.mipmap.blue_slime_hitted_sheet, R.mipmap.blue_slime_dead_sheet},
-                    {R.mipmap.red_slime_sheet, R.mipmap.red_slime_hitted_sheet, R.mipmap.red_slime_dead_sheet},
-                    {R.mipmap.boss_slime_sheet, R.mipmap.boss_slime_hitted_sheet, R.mipmap.boss_slime_dead_sheet}
+            {R.mipmap.blue_slime_sheet, R.mipmap.blue_slime_hitted_sheet, R.mipmap.blue_slime_dead_sheet},
+            {R.mipmap.red_slime_sheet, R.mipmap.red_slime_hitted_sheet, R.mipmap.red_slime_dead_sheet},
+            {R.mipmap.magma_slime_sheet, R.mipmap.magma_slime_hitted_sheet, R.mipmap.magma_slime_dead_sheet},
+            {R.mipmap.boss_slime_sheet, R.mipmap.boss_slime_hitted_sheet, R.mipmap.boss_slime_dead_sheet}
 
     };
 
@@ -65,6 +66,7 @@ public class Slime extends AnimSprite implements IBoxCollidable, IRecyclable {
         this.level = stage;
         this.type = type;
         if(type == 2) RADIUS =0.9f;
+        else if(type == 3) RADIUS =1.4f;
         setPosition(Metrics.width -RADIUS* 3.5f + index, Metrics.height/(3 * RADIUS + 2.2f), RADIUS);
         dead =false;
         InitSlime();
@@ -72,22 +74,28 @@ public class Slime extends AnimSprite implements IBoxCollidable, IRecyclable {
 
     public void InitSlime( ) {
         if(type == 0 ){
-            HP = 40.f;
+            HP = 50.f;
             fDistance = 3.f;
             SPEED = 3.f;
-            fPower = 30.f;
+            fPower = 5.f;
         }
         else if(type == 1){
             HP = 70.f;
             fDistance = 2.f;
             SPEED = 2.f;
-            fPower = 40.f;
+            fPower = 10.f;
         }
         else if(type == 2){
-            HP = 150.f;
-            SPEED = 1.5f;
-            fDistance = 1.5f;
-            fPower = 30.f;
+            HP = 120.f;
+            fDistance = 2.2f;
+            SPEED = 2.2f;
+            fPower = 15.f;
+        }
+        else if(type == 3){
+            HP = 180.f;
+            SPEED = 1.f;
+            fDistance = 1.f;
+            fPower = 20.f;
         }
         battack = false;
         dx = 0;
@@ -100,6 +108,7 @@ public class Slime extends AnimSprite implements IBoxCollidable, IRecyclable {
     }
     @Override
     public void update(float elapsedSeconds) {
+        if(GameStateManager.getInstance().GetisPause())return;
         if(deadAnimPlayDone) return;
         switch (state){
             case idle:

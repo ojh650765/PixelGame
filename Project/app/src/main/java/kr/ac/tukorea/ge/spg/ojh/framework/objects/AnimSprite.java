@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 
 import kr.ac.tukorea.ge.spg.ojh.framework.res.BitmapPool;
+import kr.ac.tukorea.ge.spg.ojh.pixelgame.game.GameStateManager;
 
 public class AnimSprite extends Sprite {
     protected Rect srcRect = new Rect();
@@ -45,9 +46,11 @@ public class AnimSprite extends Sprite {
     public void draw(Canvas canvas) {
         // AnimSprite 는 단순반복하는 이미지이므로 time 을 update 에서 꼼꼼히 누적하지 않아도 된다.
         // draw 에서 생성시각과의 차이로 frameIndex 를 계산한다.
+
         long now = System.currentTimeMillis();
         float time = (now - anim_PlayTime) / 1000.0f;
         frameIndex = Math.round(time * fps) % frameCount;
+        if(GameStateManager.getInstance().GetisPause())return;
         srcRect.set(frameIndex * frameWidth, 0, (frameIndex + 1) * frameWidth, frameHeight);
         canvas.drawBitmap(bitmap, srcRect, dstRect, null);
     }

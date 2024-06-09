@@ -19,11 +19,16 @@ public class GameClearScene extends Scene {
         float cx = w / 2, cy = h / 2;
         add(Layer.bg, new Sprite(R.mipmap.bg_clear, cx, cy, w, h));
 
-        add(Layer.touch, new Button(R.mipmap.btn_exit_n, cx, cy + 2.5f, 2.667f, 1f, new Button.Callback() {
+        add(Layer.touch, new Button(R.mipmap.btn_exit_clear, cx, cy + 2.5f, 2.667f, 1f, new Button.Callback() {
             @Override
             public boolean onTouch(Button.Action action) {
-                finishActivity();
-                return false;
+                if (GameStateManager.getInstance().GetEventStageCanOpen()) {
+                    new EventStageScene().push();
+                    return false;
+                } else {
+                    finishActivity();
+                    return false;
+                }
             }
         }));
     }

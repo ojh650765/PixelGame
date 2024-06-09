@@ -54,9 +54,9 @@ public class CollisionChecker implements IGameObject {
             if (CollisionHelper.collides(warriorHead, item)) {
                 Sound.playEffect(R.raw.item);
                 if(item instanceof SwordItem)
-                    warriorHead.PowerUp(5);
+                    warriorHead.PowerUp(1);
                 else
-                    warriorHead.DefUp(2);
+                    warriorHead.DefUp(1);
                 scene.SetAtkScore(warriorHead.GetEarnPower());
                 scene.SetDefScore(warriorHead.GetEarnDef());
                 scene.remove(MainScene.Layer.item, gobj);
@@ -77,14 +77,14 @@ public class CollisionChecker implements IGameObject {
                 if (CollisionHelper.collides(enemy,swordStrike)) {
                     scene.remove(MainScene.Layer.slash, swordStrike);
 
-                    boolean dead = enemy.ApplyDamage(warriorHead.GetPower());
+                    boolean dead = enemy.ApplyDamage(warriorHead.GetEarnPower());
                     if (dead) {
                         enemy.ChangeState(Slime.State.dead);
 
                     }else{
                         enemy.ChangeState(Slime.State.hitted);
                     }
-                    warriorHead.UpdatePower(GameStateManager.getInstance().GetPowerInfo());
+                    warriorHead.ResetPower();
                     scene.SetAtkScore(warriorHead.GetEarnPower());
                     break;
                 }

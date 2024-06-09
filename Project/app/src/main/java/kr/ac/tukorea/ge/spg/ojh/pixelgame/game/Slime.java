@@ -92,10 +92,10 @@ public class Slime extends AnimSprite implements IBoxCollidable, IRecyclable {
             fPower = 15.f;
         }
         else if(type == 3){
-            HP = 180.f;
+            HP = 260.f;
             SPEED = 1.f;
             fDistance = 1.f;
-            fPower = 20.f;
+            fPower = 40.f;
         }
         battack = false;
         dx = 0;

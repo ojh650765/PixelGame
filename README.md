@@ -19,6 +19,18 @@ Pixel Game
 |:-------:|:-----------:|:------------:|:-------------:|:---------:|:----------------:|:--------------:|:------:|:------:|
 | 4  | 18 | 15 | 21 | 25 | 16 |5 |16|30
 *******
+###  결과 화면
+stage 1
+![KakaoTalk_20240610_013115634_02](https://github.com/ojh6507/SPGTermProject/assets/45549589/47839139-e988-426a-8884-d74257b5fb3b)
+
+stage 2
+![KakaoTalk_20240610_013115634_01](https://github.com/ojh6507/SPGTermProject/assets/45549589/727120fb-3889-4484-a2c9-0b87d2650a48)
+
+stage 3
+![KakaoTalk_20240610_013115634_03](https://github.com/ojh6507/SPGTermProject/assets/45549589/903d2d53-bbd4-4db5-b300-55fc076f9a8a)
+
+보상 스테이지 (보상 스테이지는 총 4개 랜덤으로 생성/ 스테이지1,2,3 클리어시 랜덤으로 보상 스테이지로 이동) 
+![KakaoTalk_20240610_013115634](https://github.com/ojh6507/SPGTermProject/assets/45549589/4034b3dd-40d0-44c4-9f52-5935cb5b2fa5)
 
 ### 사용된 기술
 

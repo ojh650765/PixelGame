@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 
+import java.util.Random;
+
 import kr.ac.tukorea.ge.spg.ojh.framework.activity.GameActivity;
+import kr.ac.tukorea.ge.spg.ojh.framework.interfaces.IGameObject;
 import kr.ac.tukorea.ge.spg.ojh.framework.objects.Button;
 import kr.ac.tukorea.ge.spg.ojh.framework.res.Sound;
 import kr.ac.tukorea.ge.spg.ojh.pixelgame.R;
@@ -16,6 +19,7 @@ public class MainScene extends Scene {
     private final WarriorHead warriorHead;
     private final Warrior warrior;
     public static String KEY_STAGE = "stage";
+    private static final Random random = new Random();
     private AtkCount atkScore;
     private DefCount defScore;
     private TurnBasedController turnBasedController;
@@ -34,11 +38,13 @@ public class MainScene extends Scene {
             stage = extras.getInt(KEY_STAGE);
         }
         initLayers(Layer.COUNT);
-        GameStateManager.getInstance().setTurnActive(false);
+        int eventNum = random.nextInt(3);
+        GameStateManager.getInstance().InitState(eventNum);
 
         float pw = GameStateManager.getInstance().GetPowerInfo();
         float def = GameStateManager.getInstance().GetDefInfo();
-        this.warriorHead = new WarriorHead(pw, def);
+        float hp = GameStateManager.getInstance().GetPlayerHP();
+        this.warriorHead = new WarriorHead(pw, def, hp);
 
         this.warrior = new Warrior();
         add(Layer.ui,new HealthBar(Layer.ui));
@@ -64,26 +70,35 @@ public class MainScene extends Scene {
 
         this.atkScore = new AtkCount();
         this.defScore = new DefCount();
-        atkScore.setScore((int)pw);
-        defScore.setScore((int)def);
+        SetAtkScore((int)this.warriorHead.GetEarnPower());
+        SetDefScore((int)this.warriorHead.GetEarnDef());
         add(Layer.ui, atkScore);
         add(Layer.ui, defScore);
         add(Layer.ui, new AtkUI());
         add(Layer.ui, new DefUI());
-        add(Layer.touch, new Button(R.mipmap.btn_reset_n, 1.5f, 8.0f, 2.0f, 0.75f, new Button.Callback() {
+        add(Layer.touch, new Button(R.mipmap.btn_reset_n, 14.f, 8.0f, 2.0f, 0.75f, new Button.Callback() {
             @Override
             public boolean onTouch(Button.Action action) {
                 turnBasedController.ResetWarriorAndTiles();
                 return false;
             }
         }));
+        add(Layer.touch, new Button(R.mipmap.btn_pause_n, 15.6f, .4f,.6f, .6f, new Button.Callback() {
+            @Override
+            public boolean onTouch(Button.Action action) {
+              new GamePauseScene().push();
+                return false;
+            }
+        }));
     }
 
     public void SetAtkScore(int amount) {
-        atkScore.setScore(amount);
+        int t = amount/5;
+        atkScore.setScore(t);
     }
     public void SetDefScore(int amount) {
-        defScore.setScore(amount);
+        int t = amount/5;
+        defScore.setScore(t);
     }
     @Override
     public void update(float elapsedSeconds) {
@@ -112,6 +127,25 @@ public class MainScene extends Scene {
         else if(stage == 3)
             Sound.playMusic(R.raw.stage_3);
     }
+    @Override
+    protected void onPause() {
+        GameStateManager.getInstance().SetPauseState(true);
+        Sound.pauseMusic();
+        pauseAnimations();
+    }
+    @Override
+    protected void onResume() {
+        GameStateManager.getInstance().SetPauseState(false);
+        resumeAnimations();
+        Sound.resumeMusic();
+    }
+    private void pauseAnimations() {
+
+    }
+    private void resumeAnimations() {
+        warriorHead.onResume();
+    }
+
     @Override
     protected void onEnd() {
         Sound.stopMusic();

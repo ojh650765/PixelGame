@@ -10,8 +10,9 @@ Pixel Game
 | 100%  | 100% | 100% | 100% |100% | 100% | 100% | 100% | 100% |
 
 
+![commit_count](https://github.com/ojh6507/SPGTermProject/assets/45549589/956e1025-35a6-43e5-85b7-36ac1236379a)
 
-![스크린샷 2024-05-09 204809](https://github.com/ojh6507/SPGTermProject/assets/45549589/932f09a0-0003-4739-8c5b-1dede3257266)
+
 
 ## 주별 커밋 수
 | 1주차   | 2주차       | 3주차        | 4주차         | 5주차     | 6주차            | 7주차          | 8주차  | 9주차  |
@@ -34,6 +35,7 @@ Pixel Game
 
 
 ### 직접 개발
++ 에셋
 + Turn Based Controller (턴 관리 컨트롤러) 
 + Player 날리기 (드래그로 targetX, targetY 정하고 dx, dy를 유클리드 거리 공식으로 구함.)
 + Player와 장애물(바위) 충돌시 반사각으로 날리기

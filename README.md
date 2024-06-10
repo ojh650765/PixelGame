@@ -39,7 +39,7 @@ stage 3
   생성된 key가 Set에 있는지 확인.
   위 작업을 루프.
 + WarriorHead
-  + 유클리드 거리 공식 사용하여 targetX, targetY로 플레이어 직선 이동.
+  + 유클리드 거리 공식 (피타고라스 정리) 사용하여 targetX, targetY로 플레이어 직선 이동.
   + 플레이어 시작 위치부터 targetX와 targetY 까지 직선 그리기
  
 ### 수업 내용에서 차용한 것
@@ -56,11 +56,17 @@ stage 3
 
 ### 직접 개발
 + Sprite 에셋
-+ Turn Based Controller (턴 관리 컨트롤러) 
++ Turn Based Controller 클래스(턴 기반 컨트롤러) -> 몬스터 움직임, 보드 초기화, 스테이지 클리어 관리
 + Player 날리기 (드래그로 targetX, targetY 정하고 dx, dy를 유클리드 거리 공식으로 구함.)
 + Player와 장애물(바위) 충돌시 반사각으로 날리기
-+ 랜덤으로  보드판 위에 아이템 및 장애물 배치 (플레이어와 겹치지 않게)
++ 랜덤으로  보드판 위에 아이템 및 장애물 배치 TileGenerator (플레이어와 겹치지 않게)
 + Sound Pool 개선 (Sound 클래스가 사용될 사운드를 미리 Pool에 저장할 수 있도록 MainScene 생성자에서 함수 호출) -> 사운드 재생시 딜레이 되는 문제 해결
 + sprite hp bar 감소 구현
 + Slime 이동 (플레이어 턴이 끝나면 자기 위치보다 앞인 x값을 targetX로 설정하여 이동)
+
+# 아쉬운 점
+## 보충할 점
++ 콘텐츠 다양성
++ 최적화된 로직
++ 게임 밸런스, 난이도 조절
 

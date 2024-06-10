@@ -40,8 +40,8 @@ stage 3
   생성된 key가 Set에 있는지 확인.
   위 작업을 루프.
 + WarriorHead
-  + 유클리드 거리 공식 (피타고라스 정리) 사용하여 targetX, targetY로 플레이어 직선 이동.
-  + 플레이어 시작 위치부터 targetX와 targetY 까지 직선 그리기
+  + 유클리드 거리 공식 (피타고라스 정리) 사용하여 dx, dy 구하여 targetX, targetY로 플레이어 직선 이동.
+  + 플레이어 위치부터 targetX, targetY까지 직선 그리기
  
 ### 수업 내용에서 차용한 것
 + Scene 전환

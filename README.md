@@ -74,3 +74,15 @@ stage 3
 ### 어려웠던 점
 + 턴 안에 몬스터가 앞으로 한칸만 움직일 수 있도록 처리하는 게 어려웠습니다.
 
+## 발표 영상
+1차 youtube:
+
+https://www.youtube.com/watch?v=HGaGbaRLwSY
+-------
+2차 youtube: 
+
+https://www.youtube.com/watch?v=W9BWIl6AbiY
+-------
+3차 youtube:
+
+https://www.youtube.com/watch?v=yl7u5pYOKJc

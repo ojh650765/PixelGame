@@ -15,7 +15,7 @@ import kr.ac.tukorea.ge.spg.ojh.framework.objects.Sprite;
 import kr.ac.tukorea.ge.spg.ojh.framework.view.Metrics;
 
 public class WarriorHead extends Sprite implements IBoxCollidable {
-    private static final float HEAD_WIDTH = 0.6f;
+    private static final float HEAD_WIDTH = 0.5f;
     private static final float HEAD_HEIGHT = HEAD_WIDTH;
     private static final float TARGET_RADIUS = 0.5f;
     private static final float SPEED = 5.0f;

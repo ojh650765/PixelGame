@@ -28,7 +28,7 @@ public class GameStateManager implements IGameObject {
         PlayerPower = 1;
         PlayerDef = 0;
         PlayerHP = 100;
-        InitState(0);
+        InitState(0, false);
     }
     public static GameStateManager getInstance() {
         if (instance == null) {
@@ -37,11 +37,11 @@ public class GameStateManager implements IGameObject {
 
         return instance;
     }
-    public  void InitState(int eventStageNum){
+    public  void InitState(int eventStageNum,  boolean canIOpenEventStage){
         bisTurnActive = false;
         isPause = false;
         this.eventStageNum = eventStageNum;
-        this.canIOpenEventStage = random.nextBoolean();
+        this.canIOpenEventStage = canIOpenEventStage;
     }
     public void UpdatePowerInfo(float p) {
         PlayerPower = p;

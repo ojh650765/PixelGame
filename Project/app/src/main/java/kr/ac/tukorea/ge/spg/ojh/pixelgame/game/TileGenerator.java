@@ -20,8 +20,8 @@ public class TileGenerator implements IGameObject {
     private static final  float lowerBound = Metrics.height / 2 + SideY;
     private static final int TOTAL_COUNT = 60;
     private static final  int PLAYER_COUNT = 1;
-    private static final  int OBSTACLE_COUNT = 5;
-    private static final  int BOMB_COUNT = 10;
+    private int OBSTACLE_COUNT = 5;
+    private int BOMB_COUNT = 10;
     private float randomX = 0;
     private float randomY = 0;
 
@@ -39,6 +39,18 @@ public class TileGenerator implements IGameObject {
         String posKey = generatePositionKey(randomX, randomY);
         warriorHead.setPosition(randomX,randomY);
         usedPositions.add(posKey);
+        int stage = scene.getStage();
+        if(stage == 1) {
+            OBSTACLE_COUNT = 3;
+            BOMB_COUNT = 6;
+        }else  if(stage == 2) {
+            OBSTACLE_COUNT = 4;
+            BOMB_COUNT = 7;
+        }
+        else  if(stage == 3) {
+            OBSTACLE_COUNT = 5;
+            BOMB_COUNT = 7;
+        }
         generateObjects(OBSTACLE_COUNT, MainScene.Layer.obstacle);
         generateObjects(BOMB_COUNT, MainScene.Layer.bomb);
         generateObjects(TOTAL_COUNT -PLAYER_COUNT - OBSTACLE_COUNT - BOMB_COUNT + 1, MainScene.Layer.item);

@@ -78,7 +78,7 @@ public class Warrior extends AnimSprite {
 
     private void Slash() {
 
-        Scene.top().add(MainScene.Layer.slash, SwordStrike.get(x, y ));
+        Scene.top().add(MainScene.Layer.slash, SwordStrike.get(x-WARRIOR_WIDTH/4.f, y ));
     }
     public  void ChangeState(State s){
         if(!changed){

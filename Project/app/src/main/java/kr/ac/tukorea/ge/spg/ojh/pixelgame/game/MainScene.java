@@ -39,7 +39,8 @@ public class MainScene extends Scene {
         }
         initLayers(Layer.COUNT);
         int eventNum = random.nextInt(3);
-        GameStateManager.getInstance().InitState(eventNum);
+        float probability = getProbability();
+        GameStateManager.getInstance().InitState(eventNum,(Math.random() <= probability) );
 
         float pw = GameStateManager.getInstance().GetPowerInfo();
         float def = GameStateManager.getInstance().GetDefInfo();
@@ -79,7 +80,8 @@ public class MainScene extends Scene {
         add(Layer.touch, new Button(R.mipmap.btn_reset_n, 14.f, 8.0f, 2.0f, 0.75f, new Button.Callback() {
             @Override
             public boolean onTouch(Button.Action action) {
-                turnBasedController.ResetWarriorAndTiles();
+                if(!GameStateManager.getInstance().isTurnActive())
+                    turnBasedController.ResetWarriorAndTiles();
                 return false;
             }
         }));
@@ -90,6 +92,24 @@ public class MainScene extends Scene {
                 return false;
             }
         }));
+    }
+
+    private float getProbability() {
+        float probability = 0;
+        switch (stage){
+            case 1:
+                probability = 0.4f;
+                break;
+            case 2:
+                probability = 0.5f;
+                break;
+            case 3:
+                probability = 0.7f;
+                break;
+            default:
+                break;
+        }
+        return probability;
     }
 
     public void SetAtkScore(int amount) {

@@ -78,11 +78,9 @@ stage 3
 1차 youtube:
 
 https://www.youtube.com/watch?v=HGaGbaRLwSY
--------
 2차 youtube: 
 
 https://www.youtube.com/watch?v=W9BWIl6AbiY
--------
 3차 youtube:
 
 https://www.youtube.com/watch?v=yl7u5pYOKJc
